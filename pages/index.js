@@ -86,6 +86,10 @@ function HomePage() {
 
             let wsUrl = 'wss://kusama-node.polkaview.network';
 
+            wsUrl = 'wss://kusama-rpc.polkadot.io';
+
+            wsUrl = 'ws://104.238.205.8:9302';
+
             const wsProvider = new WsProvider(wsUrl);
 
             const api = new ApiPromise({ provider: wsProvider });
