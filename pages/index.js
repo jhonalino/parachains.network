@@ -74,9 +74,15 @@ function HomePage() {
 
     const [funds, setFunds] = useState([]);
 
+    const [loadingText, setLoadingText] = useState('');
+
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
 
         async function useApi() {
+
+            setLoadingText('connecting to kusama node');
 
             let wsUrl = 'wss://kusama-node.polkaview.network';
 
@@ -89,15 +95,20 @@ function HomePage() {
             window.api = api;
 
 
+            setLoadingText('querying crowdloans');
+
             const chainDecimal = Math.pow(10, api.registry.chainDecimals[0]);
 
             var _fundEntries = await api.query.crowdloan.funds.entries();
 
             window.numeral = numeral;
 
+            setLoadingText('loading para funds');
+
             async.map(_fundEntries, async function ([{ args: fundIndex }, value], cb) {
 
                 fundIndex = fundIndex.toString();
+
 
                 const fundInfo = value.toJSON();
 
@@ -106,6 +117,7 @@ function HomePage() {
                 const key = createChildKey(value.value.trieIndex)
 
                 const keys = await api.rpc.childstate.getKeys(key, '0x')
+
 
                 cb(null, {
                     cap: cap / chainDecimal,
@@ -128,6 +140,7 @@ function HomePage() {
                 }
 
                 setFunds(result);
+                setLoading(false);
 
             });
 
@@ -139,6 +152,20 @@ function HomePage() {
     }, []);
 
 
+    if (loading) {
+        return (
+            <>
+                <Head />
+                <div className="">
+                    <Header />
+                    <div className="max-w-screen-2xl m-auto w-full min-content-height">
+                        {loadingText}...
+                    </div>
+                    <Footer />
+                </div>
+            </>
+        )
+    }
 
     return (
         <>
