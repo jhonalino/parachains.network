@@ -14,6 +14,8 @@ more docs coming soon :)
 
 
 
-wanna browse kusama or polkadot identities? 
-here you go: https://polkaview.network/dot/identities
-source code: https://github.com/jhonalino/polkaview.network
+ wanna browse kusama or polkadot identities? 
+ 
+ here you go: https://polkaview.network/dot/identities
+ 
+ source code: https://github.com/jhonalino/polkaview.network
