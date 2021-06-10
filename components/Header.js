@@ -6,7 +6,8 @@ export default function Header() {
             <div className="max-w-screen-xl m-auto flex justify-between items-center h-full p-2">
                 <Link href="/">
                     <a>
-                        <h1 className="uppercase text-2xl font-bold font-accent">stakingrewards</h1>
+                        <h1 className="uppercase text-2xl">parachains</h1>
+                        <h1 className="text-xs pl-2 text-right uppercase font-bold">crowdloans</h1>
                     </a>
                 </Link>
 

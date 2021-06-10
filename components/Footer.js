@@ -7,21 +7,14 @@ export default function Footer() {
                 <p>
                     <Link href="/">
                         <a>
-                            <span className="uppercase font-bold font-accent">STAKINGREWARDS</span>
+                            <span className="uppercase">parachains</span>
                         </a>
                     </Link> ©2021 by
                     <Link href="https://polkaview.network/">
-                        <a className="ml-1">Polkaview</a>
+                        <a className="ml-1">polkaview</a>
                     </Link>
                 </p>
 
-                <div className="">
-                    <Link href="/disclaimer">
-                        <a className="underline">
-                            disclaimer
-                            </a>
-                    </Link>
-                </div>
             </div>
         </div>
     );
