@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    body {
+        @apply bg-gray-100;
+    }
+
+    .form-label {
+        @apply text-xs text-gray-900;
+    }
+}
+
+html,
+body {
+    font-family: 'Work Sans', sans-serif;
+}
+
+
+.font-accent {
+    font-family: 'Oswald', sans-serif;
+}
+
+/* to push footer to bottom */
+.min-content-height {
+    /* magic number manully acquired by calculating the height of footer + header including their margins */
+    min-height: calc(100vh - 144px);
+}
+
+table {
+    border-spacing: 20px 5px;
+}
+
+td, th {
+    border-collapse: collapse;
+    border-width: 1px;
+    padding: 1rem;
+    text-align: center;
+    border-left: none;
+    border-right: none;
+}
+
+.react-calendar {
+    width: 100%;
+    border: none;
+}
