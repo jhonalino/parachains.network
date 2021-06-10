@@ -1,6 +1,4 @@
 node_modules
-*.json
-*.csv
 # next.js build output
 .next
 
@@ -17,3 +15,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .DS_Store
+
+.vscode

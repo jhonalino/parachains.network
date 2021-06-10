@@ -1,0 +1,25 @@
+{
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@polkadot/api": "^4.13.1",
+    "async": "^3.2.0",
+    "next": "^10.2.3",
+    "numeral": "^2.0.6",
+    "query-string": "^7.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "scripts": {
+    "dev": "next dev -p 3004",
+    "build": "next build",
+    "start": "next start"
+  },
+  "description": "",
+  "version": "1.0.0",
+  "keywords": [],
+  "devDependencies": {
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.3.0",
+    "tailwindcss": "^2.1.4"
+  }
+}
