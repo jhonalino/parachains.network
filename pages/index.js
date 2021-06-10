@@ -88,7 +88,7 @@ function HomePage() {
 
             wsUrl = 'wss://kusama-rpc.polkadot.io';
 
-            wsUrl = 'ws://104.238.205.8:9302';
+            // wsUrl = 'ws://104.238.205.8:9302';
 
             const wsProvider = new WsProvider(wsUrl);
 
