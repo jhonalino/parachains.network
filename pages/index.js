@@ -238,14 +238,14 @@ function HomePage() {
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                                                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-para bg-opacity-25">
                                                     <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-para"></div>
                                                 </div>
                                             </td>
 
                                             <td className="text-right">
                                                 <button className="border border-para rounded-sm bg-transparent px-4 py-2">
-                                                    View
+                                                    view
                                                 </button>
                                             </td>
                                         </tr>
