@@ -196,7 +196,7 @@ function HomePage() {
                 <Header />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
                     <div className="flex p-4 overflow-x-auto">
-                        <div className="bg-soft-black">
+                        <div className="bg-soft-black w-32 h-32 hidden">
                             <span>block</span> 1233131
                         </div>
                     </div>
