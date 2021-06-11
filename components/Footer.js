@@ -7,19 +7,19 @@ export default function Footer() {
                 <p>
                     <Link href="/">
                         <a>
-                            <span className="uppercase">parachains</span>
+                            <span className="uppercase">parachains 2021</span>
                         </a>
-                    </Link> ©2021 by
+                    </Link> by
                     <Link href="https://polkaview.network/">
                         <a className="ml-1">polkaview</a>
                     </Link>
                 </p>
                 <div className="flex flex-col text-gr">
                     <div>
-                        <span className="mr-2" style={{ color: '#e6007a' }}>TIP (DOT):</span><span>13Tbq9Exz6r9GzEYxiey6QEQPrnhvecxNv2SPiSMny6CFWqY</span>
+                        <span className="mr-2 whitespace-nowrap" style={{ color: '#e6007a' }}>TIP (DOT):</span><span className="text-gray-600">13Tbq9Exz6r9GzEYxiey6QEQPrnhvecxNv2SPiSMny6CFWqY</span>
                     </div>
                     <div>
-                        <span className="mr-2" style={{ color: '#FF8F00' }}>TIP (KSM):</span><span>F2vM8Kmkgbbb73UmnR1rCmFgq5J31szko8hd5ixigHApDNY</span>
+                        <span className="mr-2 whitespace-nowrap" style={{ color: '#FF8F00' }}>TIP (KSM):</span><span className="text-gray-600">F2vM8Kmkgbbb73UmnR1rCmFgq5J31szko8hd5ixigHApDNY</span>
                     </div>
                 </div>
             </div>

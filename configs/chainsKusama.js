@@ -124,6 +124,7 @@ const chains = [
                 homepage: 'https://polkafoundry.com/',
                 isUnreachable: true,
                 paraId: 2009,
+                logo: 'polkasmith.svg',
                 text: t('rpc.kusama.polkasmith', 'Polkasmith', { ns: 'apps-config' }),
                 providers: {
                         Polkasmith: 'wss://polkasmith.polkafoundry.com'

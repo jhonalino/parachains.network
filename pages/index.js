@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
 import { BN_ZERO, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a, encodeAddress } from '@polkadot/util-crypto'
+import numeral from 'numeral';
+import async from 'async';
 import { useRouter } from 'next/router'
 import Head from '../components/Head';
 import Header from '../components/Header';
@@ -11,9 +13,9 @@ import Link from 'next/link';
 import { isValidKusamaOrPolkadotPublicAddress } from '../utils'
 import currencyPairs from '../utils/currencyPairs'
 import { loadGetInitialProps } from 'next/dist/next-server/lib/utils';
-import numeral from 'numeral';
 import chainsConfig from '../configs/chainsKusama';
-import async from 'async';
+import { useTable, useBlockLayout } from 'react-table'
+import { FixedSizeList } from 'react-window'
 
 function toShortAddress(_address) {
 
@@ -67,6 +69,86 @@ const areAddressesValid = function (addresses) {
 
 };
 
+function Table({ columns, data }) {
+    // Use the state and functions returned from useTable to build your UI
+
+    const defaultColumn = React.useMemo(
+        () => ({
+            width: 150,
+        }),
+        []
+    )
+
+    const scrollBarSize = 0; // React.useMemo(() => scrollbarWidth(), [])
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        totalColumnsWidth,
+        prepareRow,
+    } = useTable(
+        {
+            columns,
+            data,
+            defaultColumn,
+        },
+        useBlockLayout
+    )
+
+    const RenderRow = React.useCallback(
+        ({ index, style }) => {
+            const row = rows[index]
+            prepareRow(row)
+            return (
+                <div
+                    {...row.getRowProps({
+                        style,
+                    })}
+                    className="tr"
+                >
+                    {row.cells.map(cell => {
+                        return (
+                            <div {...cell.getCellProps()} className="td">
+                                {cell.render('Cell')}
+                            </div>
+                        )
+                    })}
+                </div>
+            )
+        },
+        [prepareRow, rows]
+    )
+
+    // Render the UI for your table
+    return (
+        <div {...getTableProps()} className="table">
+            <div>
+                {headerGroups.map(headerGroup => (
+                    <div {...headerGroup.getHeaderGroupProps()} className="tr">
+                        {headerGroup.headers.map(column => (
+                            <div {...column.getHeaderProps()} className="th">
+                                {column.render('Header')}
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+
+            <div {...getTableBodyProps()}>
+                <FixedSizeList
+                    height={400}
+                    itemCount={rows.length}
+                    itemSize={35}
+                    width={totalColumnsWidth + scrollBarSize}
+                >
+                    {RenderRow}
+                </FixedSizeList>
+            </div>
+        </div>
+    )
+}
 
 function HomePage() {
 
@@ -122,8 +204,7 @@ function HomePage() {
 
                 const keys = await api.rpc.childstate.getKeys(key, '0x')
 
-
-                cb(null, {
+                var data = {
                     cap: cap / chainDecimal,
                     deposit: deposit / chainDecimal,
                     raised: raised / chainDecimal,
@@ -134,7 +215,13 @@ function HomePage() {
                     contributorCount: keys.length,
                     raisedToCapRatio: (raised / cap) * 100,
                     ...(chainsConfig.filter((c) => c.paraId == fundIndex)[0] || {})
-                });
+                };
+
+                data.raisedF = numeral(data.raised).format('0,0');
+                data.capF = numeral(data.cap).format('0,0');
+                data.contributorCountF = numeral(data.contributorCount).format('0,0');
+
+                cb(null, data);
 
             }, function (err, result) {
 
@@ -155,6 +242,35 @@ function HomePage() {
 
     }, []);
 
+    const columns = React.useMemo(
+        () => [
+            {
+                Header: 'cap',
+                accessor: 'capF',
+            },
+            {
+                Header: 'raised',
+                accessor: 'raisedF',
+            },
+            {
+                Header: 'contributors',
+                accessor: 'contributorCountF',
+            },
+            {
+                Header: 'fund index',
+                accessor: 'fundIndex',
+            },
+            {
+                Header: 'first period',
+                accessor: 'lastPeriod',
+            },
+            {
+                Header: 'last period',
+                accessor: 'firstPeriod',
+            },
+        ],
+        []
+    )
 
     if (loading) {
         return (
@@ -173,15 +289,18 @@ function HomePage() {
 
     return (
         <>
-            <Head />
+            <Head title="PARACHAINS.NETWORK" />
             <div className="">
                 <Header />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height">
+                    {/* <div>
+                        <Table columns={columns} data={funds} />
+                    </div> */}
                     <div className="flex flex-wrap p-4">
                         {funds.map(function ({ cap, fundIndex, deposit, depositor, firstPeriod, lastPeriod, logo, text, homepage, raised, raisedToCapRatio, contributorCount }) {
                             return (
                                 <div key={fundIndex} className="w-full my-4">
-                                    <div className="flex flex-col">
+                                    <div className="flex flex-wrap justify-between">
                                         <div className="flex">
                                             <div className="rounded-full w-24 h-24 p-2">
                                                 <img className="w-full h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
@@ -195,49 +314,48 @@ function HomePage() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex flex-wrap items-end mb-2">
-                                            <div className="text-gray-900 flex flex-col m-4 w-24">
+                                        <div className="flex flex-wrap items-end mb-2 justify-end">
+                                            <div className="text-gray-900 flex flex-col w-36 text-right">
+                                                <span className="text-xs font-light">raised</span>
+                                                <span className="font-light text-2xl">
+                                                    {numeral(raised).format('0,0')}
+                                                </span>
+                                            </div>
+                                            <div className="text-gray-900 flex flex-col w-36">
+                                                <span className="text-xs font-light text-right">cap</span>
+                                                <span className="font-light text-2xl text-right">
+                                                    {numeral(cap).format('0,0')}
+                                                </span>
+                                            </div>
+                                            <div className="text-gray-900 flex flex-col w-24">
+                                                <span className="text-xs font-light text-right">leases</span>
                                                 <span className="font-light text-2xl text-right">
                                                     {firstPeriod} - {lastPeriod}
                                                 </span>
-                                                <span className="text-xs font-light text-right">leases</span>
                                             </div>
-                                            <div className="text-gray-900 flex flex-col m-4 w-24 text-right">
+                                            <div className="text-gray-900 flex flex-col w-24 text-right">
+                                                <span className="text-xs font-light">contributors</span>
                                                 <span className="font-light text-2xl">
                                                     {numeral(contributorCount).format('0,0')}
                                                 </span>
-                                                <span className="text-xs font-light">contributors</span>
-                                            </div>
-                                            <div className="text-gray-900 flex flex-col m-4 w-48">
-                                                <span className="font-light text-2xl text-right">
-                                                    {numeral(cap).format('0,0')} KSM
-                                                </span>
-                                                <span className="text-xs font-light text-right">cap</span>
-                                            </div>
-
-                                            <div className="text-gray-900 flex flex-col m-4 w-48 text-right">
-                                                <span className="font-light text-2xl">
-                                                    {numeral(raised).format('0,0')} KSM
-                                                </span>
-                                                <span className="text-xs font-light">raised</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="relative pt-1">
                                         <div className="flex mb-2 items-center justify-between">
                                             <div>
-                                                <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200">
+                                                <span className="text-xs inline-block py-1 px-2 uppercase rounded-full text-dot">
                                                     {numeral(raised).format('0,0')} / {numeral(cap).format('0,0')} KSM raised
                                                 </span>
                                             </div>
                                             <div className="text-right">
-                                                <span className="text-xs font-semibold inline-block text-pink-600">
+                                                <span className="text-xs inline-block text-pink-600 font-bold">
                                                     {numeral(raisedToCapRatio).format('0.0')}%
                                                 </span>
                                             </div>
                                         </div>
                                         <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
-                                            <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"></div>
+                                            <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-dot"></div>
                                         </div>
                                     </div>
                                 </div>
