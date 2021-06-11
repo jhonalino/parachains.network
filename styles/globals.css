@@ -29,17 +29,24 @@ body {
 }
 
 table {
-    border-spacing: 20px 5px;
+    border-spacing: 0 8px;
+    border-collapse: separate;
 }
 
-td, th {
-    border-collapse: collapse;
-    border-width: 1px;
+td,
+th {
     padding: 1rem;
-    text-align: center;
+
     border-left: none;
     border-right: none;
+
+    background: #ffffff91;
 }
+
+th {
+    font-weight: normal;
+}
+
 
 .react-calendar {
     width: 100%;

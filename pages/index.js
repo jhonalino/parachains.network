@@ -14,7 +14,6 @@ import { isValidKusamaOrPolkadotPublicAddress } from '../utils'
 import currencyPairs from '../utils/currencyPairs'
 import { loadGetInitialProps } from 'next/dist/next-server/lib/utils';
 import chainsConfig from '../configs/chainsKusama';
-import { useTable, useBlockLayout } from 'react-table'
 import { FixedSizeList } from 'react-window'
 
 function toShortAddress(_address) {
@@ -68,88 +67,6 @@ const areAddressesValid = function (addresses) {
     return [true];
 
 };
-
-function Table({ columns, data }) {
-    // Use the state and functions returned from useTable to build your UI
-
-    const defaultColumn = React.useMemo(
-        () => ({
-            width: 150,
-        }),
-        []
-    )
-
-    const scrollBarSize = 0; // React.useMemo(() => scrollbarWidth(), [])
-
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        totalColumnsWidth,
-        prepareRow,
-    } = useTable(
-        {
-            columns,
-            data,
-            defaultColumn,
-        },
-        useBlockLayout
-    )
-
-    const RenderRow = React.useCallback(
-        ({ index, style }) => {
-            const row = rows[index]
-            prepareRow(row)
-            return (
-                <div
-                    {...row.getRowProps({
-                        style,
-                    })}
-                    className="tr"
-                >
-                    {row.cells.map(cell => {
-                        return (
-                            <div {...cell.getCellProps()} className="td">
-                                {cell.render('Cell')}
-                            </div>
-                        )
-                    })}
-                </div>
-            )
-        },
-        [prepareRow, rows]
-    )
-
-    // Render the UI for your table
-    return (
-        <div {...getTableProps()} className="table">
-            <div>
-                {headerGroups.map(headerGroup => (
-                    <div {...headerGroup.getHeaderGroupProps()} className="tr">
-                        {headerGroup.headers.map(column => (
-                            <div {...column.getHeaderProps()} className="th">
-                                {column.render('Header')}
-                            </div>
-                        ))}
-                    </div>
-                ))}
-            </div>
-
-            <div {...getTableBodyProps()}>
-                <FixedSizeList
-                    height={400}
-                    itemCount={rows.length}
-                    itemSize={35}
-                    width={totalColumnsWidth + scrollBarSize}
-                >
-                    {RenderRow}
-                </FixedSizeList>
-            </div>
-        </div>
-    )
-}
-
 function HomePage() {
 
     const router = useRouter();
@@ -242,36 +159,6 @@ function HomePage() {
 
     }, []);
 
-    const columns = React.useMemo(
-        () => [
-            {
-                Header: 'cap',
-                accessor: 'capF',
-            },
-            {
-                Header: 'raised',
-                accessor: 'raisedF',
-            },
-            {
-                Header: 'contributors',
-                accessor: 'contributorCountF',
-            },
-            {
-                Header: 'fund index',
-                accessor: 'fundIndex',
-            },
-            {
-                Header: 'first period',
-                accessor: 'lastPeriod',
-            },
-            {
-                Header: 'last period',
-                accessor: 'firstPeriod',
-            },
-        ],
-        []
-    )
-
     if (loading) {
         return (
             <>
@@ -292,75 +179,80 @@ function HomePage() {
             <Head title="PARACHAINS.NETWORK" />
             <div className="">
                 <Header />
-                <div className="max-w-screen-2xl m-auto w-full min-content-height">
-                    {/* <div>
-                        <Table columns={columns} data={funds} />
-                    </div> */}
-                    <div className="flex flex-wrap p-4">
-                        {funds.map(function ({ cap, fundIndex, deposit, depositor, firstPeriod, lastPeriod, logo, text, homepage, raised, raisedToCapRatio, contributorCount }) {
-                            return (
-                                <div key={fundIndex} className="w-full my-4">
-                                    <div className="flex flex-wrap justify-between">
-                                        <div className="flex">
-                                            <div className="rounded-full w-24 h-24 p-2">
-                                                <img className="w-full h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
-                                            </div>
-                                            <div className="flex flex-col justify-center">
-                                                <div>
-                                                    <span className="text-4xl">{text}</span>
+                <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
+                    <div className="flex p-4 overflow-x-auto">
+                        <table className="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th className="text-right">#</th>
+                                    <th className="text-left" colSpan={2}>parachains</th>
+                                    <th className="text-right">raised</th>
+                                    <th className="text-right">cap</th>
+                                    <th className="text-right">lease period</th>
+                                    <th>contributors</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {funds.map(function ({ cap, fundIndex, deposit, depositor, firstPeriod, lastPeriod, logo, text, homepage, raised, raisedToCapRatio, contributorCount }) {
+                                    return (
+                                        <tr key={fundIndex} >
+                                            <td className="text-right">
+                                                {fundIndex}
+                                            </td>
+                                            <td className="">
+                                                <div className="w-12 h-12 rounded-full">
+                                                    <img className="w-full h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
                                                 </div>
-                                                <div className="flex flex-col">
-                                                    <span className="text-2xl font-light">{fundIndex}</span>
+                                            </td>
+                                            <td className="text-left text-2xl">
+                                                {text}
+                                            </td>
+                                            <td className="text-right">
+                                                <span className="">
+                                                    {numeral(raised).format('0,0')} KSM
+                                                </span>
+                                            </td>
+                                            <td className="text-right">
+                                                <span className="">
+                                                    {numeral(cap).format('0,0')} KSM
+                                                </span>
+                                            </td>
+                                            <td className="text-right">
+                                                {firstPeriod} - {lastPeriod}
+                                            </td>
+                                            <td className="text-right">
+                                                {numeral(contributorCount).format('0,0')}
+                                            </td>
+                                            <td className="relative pt-1">
+                                                <div className="flex mb-2 items-center justify-between">
+                                                    <div>
+                                                        <span className="text-xs inline-block py-1 px-2 uppercase rounded-full text-dot">
+                                                            {numeral(raised).format('0,0')} / {numeral(cap).format('0,0')} KSM raised
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <span className="text-xs inline-block text-pink-600 font-bold">
+                                                            {numeral(raisedToCapRatio).format('0.0')}%
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div className="flex flex-wrap items-end mb-2 justify-end">
-                                            <div className="text-gray-900 flex flex-col w-36 text-right">
-                                                <span className="text-xs font-light">raised</span>
-                                                <span className="font-light text-2xl">
-                                                    {numeral(raised).format('0,0')}
-                                                </span>
-                                            </div>
-                                            <div className="text-gray-900 flex flex-col w-36">
-                                                <span className="text-xs font-light text-right">cap</span>
-                                                <span className="font-light text-2xl text-right">
-                                                    {numeral(cap).format('0,0')}
-                                                </span>
-                                            </div>
-                                            <div className="text-gray-900 flex flex-col w-24">
-                                                <span className="text-xs font-light text-right">leases</span>
-                                                <span className="font-light text-2xl text-right">
-                                                    {firstPeriod} - {lastPeriod}
-                                                </span>
-                                            </div>
-                                            <div className="text-gray-900 flex flex-col w-24 text-right">
-                                                <span className="text-xs font-light">contributors</span>
-                                                <span className="font-light text-2xl">
-                                                    {numeral(contributorCount).format('0,0')}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="relative pt-1">
-                                        <div className="flex mb-2 items-center justify-between">
-                                            <div>
-                                                <span className="text-xs inline-block py-1 px-2 uppercase rounded-full text-dot">
-                                                    {numeral(raised).format('0,0')} / {numeral(cap).format('0,0')} KSM raised
-                                                </span>
-                                            </div>
-                                            <div className="text-right">
-                                                <span className="text-xs inline-block text-pink-600 font-bold">
-                                                    {numeral(raisedToCapRatio).format('0.0')}%
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
-                                            <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-dot"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })}
+                                                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
+                                                    <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-dot"></div>
+                                                </div>
+                                            </td>
+
+                                            <td className="text-right">
+                                                <button className="bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 border-b-4 border-pink-700 hover:border-pink-500 rounded">
+                                                    View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <Footer />
