@@ -375,14 +375,14 @@ function HomePage() {
                             <thead>
                                 <tr>
                                     <th className="text-right">#</th>
-                                    <th className="text-left" colSpan={2}>parachains</th>
-                                    <th className="text-right">raised</th>
-                                    <th className="text-right">raised / cap</th>
-                                    <th className="text-right">cap</th>
-                                    <th className="text-right">lease period</th>
-                                    <th className="text-right">ending block</th>
-                                    <th className="text-right">contributors</th>
-                                    <th>homepage</th>
+                                    <th className="text-left" colSpan={2}>Parachains</th>
+                                    <th className="text-right">Raised</th>
+                                    <th className="text-right">Raised / Cap</th>
+                                    <th className="text-right">Cap</th>
+                                    <th className="text-right">Lease Period</th>
+                                    <th className="text-right">Ending Block</th>
+                                    <th className="text-right">Contributors</th>
+                                    <th>Homepage</th>
                                 </tr>
                             </thead>
                             <tbody>
