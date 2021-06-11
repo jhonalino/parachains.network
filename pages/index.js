@@ -442,7 +442,7 @@ function HomePage() {
                                             {homepage && (
                                                 <td className="text-right">
                                                     <a href={homepage} className="border border-para rounded-sm bg-transparent px-4 py-2">
-                                                        view
+                                                        View
                                                     </a>
                                                 </td>
                                             )}
