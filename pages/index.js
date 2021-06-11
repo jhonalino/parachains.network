@@ -174,7 +174,7 @@ function HomePage() {
 
             let wsUrl = 'wss://kusama-node.polkaview.network';
 
-            wsUrl = 'wss://kusama-rpc.polkadot.io';
+            //wsUrl = 'wss://kusama-rpc.polkadot.io';
 
             // wsUrl = 'ws://104.238.205.8:9302';
 
