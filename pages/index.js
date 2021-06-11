@@ -79,6 +79,8 @@ function HomePage() {
 
     const [blockNumber, setBlockNumber] = useState(null);
 
+    const [crowdLoanTriggerEvents, setCrowdLoanTriggerEvents] = useState([])
+
     const [api, setApi] = useState(null);
 
     useEffect(() => {
@@ -87,7 +89,62 @@ function HomePage() {
             return;
         }
 
-        var unsub;
+        let unsub;
+
+        var crowdLoanEventsToListen = [
+            // these trigger a full refresh of the keys
+            api.events.crowdloan.Dissolved,
+            api.events.crowdloan.AllRefunded,
+            api.events.crowdloan.PartiallyRefunded,
+            // these trigger a delta adjustment
+            // can be done with a delta adjustment
+            //so optimized this in the future
+            api.events.crowdloan.Contributed,
+            api.events.crowdloan.Withdrew
+        ];
+
+        async function listenForNewEvents() {
+
+            // Subscribe to system events via storage
+            unsub = await api.query.system.events((events) => {
+
+
+                //listen for event that matches and return them;
+                var matchingEvents = events.filter(function (record) {
+                    return record && crowdLoanEventsToListen.some(c => c && c.is(record.event));
+                });
+
+                //if any of the events I'm interester are triggered
+                //then set this, for those who are listening
+                if (matchingEvents.length) {
+                    console.log('setting');
+                    setCrowdLoanTriggerEvents(matchingEvents);
+                }
+
+            });
+
+        }
+
+        listenForNewEvents();
+
+        return function () {
+
+            if (typeof unsub === 'function') {
+                console.log('unsubbbing');
+                unsub();
+            }
+
+        };
+
+    }, [api]);
+
+    useEffect(() => {
+
+        if (!api) {
+            return;
+        }
+
+        let unsub;
 
         async function listenForNewBlocks() {
 
@@ -102,7 +159,6 @@ function HomePage() {
         return function () {
 
             if (typeof unsub === 'function') {
-                console.log('unsub');
                 unsub();
             }
 
@@ -131,6 +187,21 @@ function HomePage() {
             window.api = api;
 
             setApi(api);
+        }
+
+        useApi();
+
+    }, []);
+
+    useEffect(() => {
+
+        var unsub = false;
+
+        async function loadFunds() {
+
+            if (!api) {
+                return;
+            }
 
             setLoadingText('querying crowdloans');
 
@@ -182,17 +253,24 @@ function HomePage() {
                     return;
                 }
 
-                setFunds(result);
-                setLoading(false);
+                // if component hasn't been removed yet then do ur thing 
+                if (!unsub) {
+                    setFunds(result);
+                    setLoading(false);
+                }
 
             });
 
 
         }
 
-        useApi();
+        loadFunds();
 
-    }, []);
+        return function () {
+            unsub = true;
+        }
+
+    }, [api, crowdLoanTriggerEvents]);
 
     const sortedFunds = useMemo(() => {
 
@@ -202,29 +280,33 @@ function HomePage() {
             return b.raised - a.raised;
         });
 
-        console.log(fundsTmp)
-
         return fundsTmp;
 
     }, [funds])
 
-    const totalContributors = useMemo(() => {
+    const { totalContributors, totalRaised, totalCap } = useMemo(() => {
 
         return funds.reduce(function (accumulator, current) {
 
-            if (typeof accumulator != 'number') {
+            if (!accumulator) {
 
-                return current.contributorCount;
+                return {
+                    totalContributors: current.contributorCount,
+                    totalRaised: current.raised,
+                    totalCap: current.cap,
+                };
 
             } else {
 
-                return accumulator + current.contributorCount;
+                return {
+                    totalContributors: accumulator.totalContributors + current.contributorCount,
+                    totalRaised: accumulator.totalRaised + current.raised,
+                    totalCap: accumulator.totalCap + current.cap,
+                };
 
             }
 
-            
-        }, null)
-        
+        }, null) || {};
 
     }, [funds])
 
@@ -249,23 +331,44 @@ function HomePage() {
             <div className="">
                 <Header />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
-                    <div className="flex p-4 overflow-x-auto">
-                        {blockNumber && (
-                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right mr-2">
-                                <span>current block</span>
-                                <span className="text-4xl">
-                                    {numeral(blockNumber).format('0,0')}
-                                </span>
-                            </div>
-                        )}
+                    <div className="flex p-4 overflow-x-auto flex-wrap">
+
                         {totalContributors && (
-                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right mr-2">
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
                                 <span>total contributors</span>
                                 <span className="text-4xl">
                                     {numeral(totalContributors).format('0,0')}
                                 </span>
                             </div>
                         )}
+
+                        {totalRaised && (
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>total raised</span>
+                                <span className="text-4xl">
+                                    {numeral(totalRaised).format('0,0')} KSM
+                                </span>
+                            </div>
+                        )}
+
+                        {totalCap && (
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>total cap</span>
+                                <span className="text-4xl">
+                                    {numeral(totalCap).format('0,0')} KSM
+                                </span>
+                            </div>
+                        )}
+
+                        {blockNumber && (
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>current block</span>
+                                <span className="text-4xl">
+                                    {numeral(blockNumber).format('0,0')}
+                                </span>
+                            </div>
+                        )}
+
                     </div>
                     <div className="flex p-4 overflow-x-auto">
                         <table className="min-w-full">
