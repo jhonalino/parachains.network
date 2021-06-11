@@ -10,6 +10,12 @@
     .form-label {
         @apply text-xs text-gray-900;
     }
+
+    td,
+    th {
+        @apply bg-soft-black;
+    }
+
 }
 
 html,
@@ -41,8 +47,6 @@ th {
 
     border-left: none;
     border-right: none;
-
-    background: #0072ff14;
 }
 
 th {

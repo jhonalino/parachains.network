@@ -115,7 +115,9 @@ function HomePage() {
 
                 const fundInfo = value.toJSON();
 
-                let { cap, deposit, depositor, raised, firstPeriod, lastPeriod } = fundInfo;
+                let { cap, deposit, depositor, raised, firstPeriod, lastPeriod, end: endingBlock } = fundInfo;
+
+                console.log(fundInfo);
 
                 const key = createChildKey(value.value.trieIndex)
 
@@ -129,6 +131,7 @@ function HomePage() {
                     firstPeriod,
                     lastPeriod,
                     fundIndex,
+                    endingBlock,
                     contributorCount: keys.length,
                     raisedToCapRatio: (raised / cap) * 100,
                     ...(chainsConfig.filter((c) => c.paraId == fundIndex)[0] || {})
@@ -169,7 +172,7 @@ function HomePage() {
 
         return fundsTmp;
 
-    }, [funds]) 
+    }, [funds])
 
     if (loading) {
         return (
@@ -193,6 +196,11 @@ function HomePage() {
                 <Header />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
                     <div className="flex p-4 overflow-x-auto">
+                        <div className="bg-soft-black">
+                            <span>block</span> 1233131
+                        </div>
+                    </div>
+                    <div className="flex p-4 overflow-x-auto">
                         <table className="min-w-full">
                             <thead>
                                 <tr>
@@ -202,12 +210,15 @@ function HomePage() {
                                     <th className="text-right">raised</th>
                                     <th className="text-right">cap</th>
                                     <th className="text-right">lease period</th>
+                                    <th className="text-right">ending block</th>
                                     <th className="text-right">contributors</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {sortedFunds.map(function ({ cap, fundIndex, deposit, depositor, firstPeriod, lastPeriod, logo, text, homepage, raised, raisedToCapRatio, contributorCount }) {
+                                {sortedFunds.map(function ({ cap, fundIndex, deposit, depositor, firstPeriod, lastPeriod, logo, text,
+                                    endingBlock,
+                                    homepage, raised, raisedToCapRatio, contributorCount }) {
                                     return (
                                         <tr key={fundIndex} >
                                             <td className="text-right">
@@ -250,6 +261,9 @@ function HomePage() {
                                             </td>
                                             <td className="text-right">
                                                 {firstPeriod} - {lastPeriod}
+                                            </td>
+                                            <td className="text-right">
+                                                {endingBlock}
                                             </td>
                                             <td className="text-right">
                                                 {numeral(contributorCount).format('0,0')}

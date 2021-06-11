@@ -56,6 +56,7 @@ const chains = [
                 homepage: 'https://darwinia.network/',
                 isUnreachable: true,
                 paraId: 2006,
+                logo: 'darwinia.svg',
                 text: t('rpc.kusama.crab-redirect', 'Darwinia Crab Redirect', { ns: 'apps-config' }),
                 providers: {
                         Crab: 'wss://crab-redirect-rpc.darwinia.network/'

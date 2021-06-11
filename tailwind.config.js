@@ -12,6 +12,7 @@ module.exports = {
         dot: '#e6007a',
         ksm: '#FF8F00',
         para: '#8DFFF4',
+        'soft-black': '#0072ff14',
         "kinda-black": 'rgb(18 19 18 / 27%)'
       },
     },
