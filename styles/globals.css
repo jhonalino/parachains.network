@@ -15,6 +15,8 @@
 html,
 body {
     font-family: 'Work Sans', sans-serif;
+    background: black;
+    color: #8DFFF4;
 }
 
 
@@ -29,7 +31,7 @@ body {
 }
 
 table {
-    border-spacing: 0 8px;
+    border-spacing: 0 1px;
     border-collapse: separate;
 }
 
@@ -40,7 +42,7 @@ th {
     border-left: none;
     border-right: none;
 
-    background: #ffffff91;
+    background: #0072ff14;
 }
 
 th {

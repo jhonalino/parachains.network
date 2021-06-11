@@ -233,18 +233,18 @@ function HomePage() {
                                                         </span>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className="text-xs inline-block text-blue-600 font-bold">
+                                                        <span className="text-xs inline-block text-para font-bold">
                                                             {numeral(raisedToCapRatio).format('0.0')}%
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
-                                                    <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                                                    <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-para"></div>
                                                 </div>
                                             </td>
 
                                             <td className="text-right">
-                                                <button className="bg-blue-500 blue:bg-pink-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:blue-pink-500 rounded">
+                                                <button className="border border-para rounded-sm bg-transparent px-4 py-2">
                                                     View
                                                 </button>
                                             </td>
