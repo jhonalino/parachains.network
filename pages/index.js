@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
 import { BN_ZERO, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a, encodeAddress } from '@polkadot/util-crypto'
@@ -159,6 +159,18 @@ function HomePage() {
 
     }, []);
 
+    const sortedFunds = useMemo(() => {
+
+        let fundsTmp = [...funds];
+
+        fundsTmp.sort((a, b) => {
+            return b.raisedToCapRatio - a.raisedToCapRatio;
+        });
+
+        return fundsTmp;
+
+    }, [funds]) 
+
     if (loading) {
         return (
             <>
@@ -186,16 +198,16 @@ function HomePage() {
                                 <tr>
                                     <th className="text-right">#</th>
                                     <th className="text-left" colSpan={2}>parachains</th>
-                                    <th className="text-right">lease period</th>
-                                    <th className="text-right">contributors</th>
+                                    <th className="text-right">raised / cap</th>
                                     <th className="text-right">raised</th>
                                     <th className="text-right">cap</th>
-                                    <th className="text-right">raised / cap</th>
+                                    <th className="text-right">lease period</th>
+                                    <th className="text-right">contributors</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {funds.map(function ({ cap, fundIndex, deposit, depositor, firstPeriod, lastPeriod, logo, text, homepage, raised, raisedToCapRatio, contributorCount }) {
+                                {sortedFunds.map(function ({ cap, fundIndex, deposit, depositor, firstPeriod, lastPeriod, logo, text, homepage, raised, raisedToCapRatio, contributorCount }) {
                                     return (
                                         <tr key={fundIndex} >
                                             <td className="text-right">
@@ -208,22 +220,6 @@ function HomePage() {
                                             </td>
                                             <td className="text-left text-2xl">
                                                 {text}
-                                            </td>
-                                            <td className="text-right">
-                                                {firstPeriod} - {lastPeriod}
-                                            </td>
-                                            <td className="text-right">
-                                                {numeral(contributorCount).format('0,0')}
-                                            </td>
-                                            <td className="text-right">
-                                                <span className="">
-                                                    {numeral(raised).format('0,0')} KSM
-                                                </span>
-                                            </td>
-                                            <td className="text-right">
-                                                <span className="">
-                                                    {numeral(cap).format('0,0')} KSM
-                                                </span>
                                             </td>
                                             <td className="relative pt-1">
                                                 <div className="flex mb-2 items-center justify-between">
@@ -241,6 +237,22 @@ function HomePage() {
                                                 <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-para bg-opacity-25">
                                                     <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-para"></div>
                                                 </div>
+                                            </td>
+                                            <td className="text-right">
+                                                <span className="">
+                                                    {numeral(raised).format('0,0')} KSM
+                                                </span>
+                                            </td>
+                                            <td className="text-right">
+                                                <span className="">
+                                                    {numeral(cap).format('0,0')} KSM
+                                                </span>
+                                            </td>
+                                            <td className="text-right">
+                                                {firstPeriod} - {lastPeriod}
+                                            </td>
+                                            <td className="text-right">
+                                                {numeral(contributorCount).format('0,0')}
                                             </td>
 
                                             <td className="text-right">
