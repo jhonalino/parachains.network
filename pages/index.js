@@ -208,6 +208,26 @@ function HomePage() {
 
     }, [funds])
 
+    const totalContributors = useMemo(() => {
+
+        return funds.reduce(function (accumulator, current) {
+
+            if (typeof accumulator != 'number') {
+
+                return current.contributorCount;
+
+            } else {
+
+                return accumulator + current.contributorCount;
+
+            }
+
+            
+        }, null)
+        
+
+    }, [funds])
+
     if (loading) {
         return (
             <>
@@ -231,10 +251,18 @@ function HomePage() {
                 <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
                     <div className="flex p-4 overflow-x-auto">
                         {blockNumber && (
-                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start">
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right mr-2">
                                 <span>current block</span>
                                 <span className="text-4xl">
                                     {numeral(blockNumber).format('0,0')}
+                                </span>
+                            </div>
+                        )}
+                        {totalContributors && (
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right mr-2">
+                                <span>total contributors</span>
+                                <span className="text-4xl">
+                                    {numeral(totalContributors).format('0,0')}
                                 </span>
                             </div>
                         )}
