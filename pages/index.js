@@ -170,7 +170,7 @@ function HomePage() {
 
         async function useApi() {
 
-            setLoadingText('connecting to kusama node');
+            setLoadingText('Connecting to kusama node');
 
             let wsUrl = 'wss://kusama-node.polkaview.network';
 
@@ -203,7 +203,7 @@ function HomePage() {
                 return;
             }
 
-            setLoadingText('querying crowdloans');
+            setLoadingText('Querying crowdloans');
 
             const chainDecimal = Math.pow(10, api.registry.chainDecimals[0]);
 
@@ -211,7 +211,7 @@ function HomePage() {
 
             window.numeral = numeral;
 
-            setLoadingText('loading para funds');
+            setLoadingText('Loading para funds');
 
             async.map(_fundEntries, async function ([{ args: fundIndex }, value], cb) {
 
