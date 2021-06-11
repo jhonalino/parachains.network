@@ -83,6 +83,38 @@ function HomePage() {
 
     const [api, setApi] = useState(null);
 
+    const [currentFiatPrice, setCurrentFiatPrice] = useState(null);
+
+    useEffect(() => {
+
+        const fetchPrice = function () {
+
+            window.fetch(`https://polkaview.network/api/ksm/price`)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function ({ usdPrice }) {
+                    console.log('price fetch', usdPrice);
+                    setCurrentFiatPrice(usdPrice > 0 ? usdPrice : null);
+                })
+                .catch(function () {
+                    setCurrentFiatPrice(usdPrice);
+                });
+
+        };
+
+        let intervalId = window.setInterval(fetchPrice, 1000 * 60) //1 minute
+
+        fetchPrice();
+
+        return function () {
+
+            window.clearInterval(intervalId);
+
+        };
+
+    }, [])
+
     useEffect(() => {
 
         if (!api) {
@@ -331,7 +363,7 @@ function HomePage() {
             <div className="">
                 <Header />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
-                    <div className="flex p-4 overflow-x-auto flex-wrap">
+                    <div className="flex p-4 pb-0 overflow-x-auto flex-wrap">
 
                         {totalContributors && (
                             <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
@@ -370,18 +402,48 @@ function HomePage() {
                         )}
 
                     </div>
+
+                    <div className="flex p-4 pt-0 overflow-x-auto flex-wrap">
+                        {currentFiatPrice && (
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>Value (KSM-USD)</span>
+                                <span className="text-4xl">
+                                    ${numeral(currentFiatPrice).format('0,0.00')}
+                                </span>
+                            </div>
+                        )}
+
+                        {(totalRaised && currentFiatPrice) && (
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>Total Raised (USD)</span>
+                                <span className="text-4xl">
+                                    ${numeral(totalRaised * currentFiatPrice).format('0,0')}
+                                </span>
+                            </div>
+                        )}
+
+                        {(totalCap && currentFiatPrice) && (
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>Total Cap (USD)</span>
+                                <span className="text-4xl">
+                                    ${numeral(totalCap * currentFiatPrice).format('0,0')}
+                                </span>
+                            </div>
+                        )}
+                    </div>
+
                     <div className="flex p-4 overflow-x-auto">
                         <table className="min-w-full">
                             <thead>
                                 <tr>
-                                    <th className="text-right">#</th>
                                     <th className="text-left" colSpan={2}>Parachains</th>
+                                    <th className="text-right">Contributors</th>
+                                    <th className="text-right">Raised (USD)</th>
                                     <th className="text-right">Raised</th>
                                     <th className="text-right">Raised / Cap</th>
                                     <th className="text-right">Cap</th>
                                     <th className="text-right">Lease Period</th>
                                     <th className="text-right">Ending Block</th>
-                                    <th className="text-right">Contributors</th>
                                     <th>Homepage</th>
                                 </tr>
                             </thead>
@@ -391,22 +453,32 @@ function HomePage() {
                                     homepage, raised, raisedToCapRatio, contributorCount }) {
                                     return (
                                         <tr key={fundIndex} >
-                                            <td className="text-right">
-                                                {fundIndex}
-                                            </td>
                                             <td className="">
                                                 <div className="w-12 h-12 rounded-full">
                                                     <img className="w-full h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
                                                 </div>
                                             </td>
-                                            <td className="text-left text-2xl">
+                                            <td className="text-left text-1xl">
                                                 {text}
                                             </td>
+                                            <td className="text-right">
+                                                {numeral(contributorCount).format('0,0')}
+                                            </td>
+
+                                            {currentFiatPrice && (
+                                                <td className="text-right">
+                                                    <span className="">
+                                                        ${numeral(raised * currentFiatPrice).format('0,0')}
+                                                    </span>
+                                                </td>
+                                            )}
+
                                             <td className="text-right">
                                                 <span className="">
                                                     {numeral(raised).format('0,0')} KSM
                                                 </span>
                                             </td>
+
                                             <td className="relative pt-1">
                                                 <div className="flex mb-2 items-center justify-between">
                                                     <div>
@@ -434,9 +506,6 @@ function HomePage() {
                                             </td>
                                             <td className="text-right">
                                                 {numeral(endingBlock).format('0,0')}
-                                            </td>
-                                            <td className="text-right">
-                                                {numeral(contributorCount).format('0,0')}
                                             </td>
 
                                             {homepage && (
