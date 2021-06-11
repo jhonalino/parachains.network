@@ -440,8 +440,8 @@ function HomePage() {
                                     <th className="text-right">Contributors</th>
                                     <th className="text-right">Raised (USD)</th>
                                     <th className="text-right">Raised</th>
-                                    <th className="text-right">Raised / Cap</th>
                                     <th className="text-right">Cap</th>
+                                    <th className="text-right">Raised / Cap</th>
                                     <th className="text-right">Lease Period</th>
                                     <th className="text-right">Ending Block</th>
                                     <th>Homepage</th>
@@ -479,6 +479,12 @@ function HomePage() {
                                                 </span>
                                             </td>
 
+                                            <td className="text-right">
+                                                <span className="">
+                                                    {numeral(cap).format('0.0a')} KSM
+                                                </span>
+                                            </td>
+
                                             <td className="relative pt-1">
                                                 <div className="flex mb-2 items-center justify-between">
                                                     <div>
@@ -496,11 +502,7 @@ function HomePage() {
                                                     <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-para"></div>
                                                 </div>
                                             </td>
-                                            <td className="text-right">
-                                                <span className="">
-                                                    {numeral(cap).format('0,0')} KSM
-                                                </span>
-                                            </td>
+
                                             <td className="text-right">
                                                 {firstPeriod} - {lastPeriod}
                                             </td>
