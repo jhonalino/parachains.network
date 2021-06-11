@@ -13,7 +13,7 @@ export default function Header() {
 
                 <Link href="https://github.com/jhonalino/parachains.network">
                     <a className="ml-1">
-                        <img src="/github-mark.png" alt="github logo" className="w-8" />
+                        <img src="/github.png" alt="github logo" className="w-8" />
                     </a>
                 </Link>
             </div>
