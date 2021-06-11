@@ -335,7 +335,7 @@ function HomePage() {
 
                         {totalContributors && (
                             <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>total contributors</span>
+                                <span>Total Contributors</span>
                                 <span className="text-4xl">
                                     {numeral(totalContributors).format('0,0')}
                                 </span>
@@ -344,7 +344,7 @@ function HomePage() {
 
                         {totalRaised && (
                             <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>total raised</span>
+                                <span>Total Raised</span>
                                 <span className="text-4xl">
                                     {numeral(totalRaised).format('0,0')} KSM
                                 </span>
@@ -353,7 +353,7 @@ function HomePage() {
 
                         {totalCap && (
                             <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>total cap</span>
+                                <span>Total Cap</span>
                                 <span className="text-4xl">
                                     {numeral(totalCap).format('0,0')} KSM
                                 </span>
@@ -362,7 +362,7 @@ function HomePage() {
 
                         {blockNumber && (
                             <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>current block</span>
+                                <span>Current Block</span>
                                 <span className="text-4xl">
                                     {numeral(blockNumber).format('0,0')}
                                 </span>
