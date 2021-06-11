@@ -7,7 +7,7 @@ export default function Header() {
                 <Link href="/">
                     <a>
                         <h1 className="uppercase text-2xl text-dot">parachains</h1>
-                        <h1 className="text-xs pl-2 text-right uppercase font-bold">crowdloans</h1>
+                        <h1 className="text-xs pl-2 text-right uppercase font-bold text-blue-700">crowdloans</h1>
                     </a>
                 </Link>
 

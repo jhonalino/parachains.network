@@ -186,11 +186,11 @@ function HomePage() {
                                 <tr>
                                     <th className="text-right">#</th>
                                     <th className="text-left" colSpan={2}>parachains</th>
+                                    <th className="text-right">lease period</th>
+                                    <th className="text-right">contributors</th>
                                     <th className="text-right">raised</th>
                                     <th className="text-right">cap</th>
-                                    <th className="text-right">lease period</th>
-                                    <th>contributors</th>
-                                    <th></th>
+                                    <th className="text-right">raised / cap</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -210,6 +210,12 @@ function HomePage() {
                                                 {text}
                                             </td>
                                             <td className="text-right">
+                                                {firstPeriod} - {lastPeriod}
+                                            </td>
+                                            <td className="text-right">
+                                                {numeral(contributorCount).format('0,0')}
+                                            </td>
+                                            <td className="text-right">
                                                 <span className="">
                                                     {numeral(raised).format('0,0')} KSM
                                                 </span>
@@ -219,32 +225,26 @@ function HomePage() {
                                                     {numeral(cap).format('0,0')} KSM
                                                 </span>
                                             </td>
-                                            <td className="text-right">
-                                                {firstPeriod} - {lastPeriod}
-                                            </td>
-                                            <td className="text-right">
-                                                {numeral(contributorCount).format('0,0')}
-                                            </td>
                                             <td className="relative pt-1">
                                                 <div className="flex mb-2 items-center justify-between">
                                                     <div>
-                                                        <span className="text-xs inline-block py-1 px-2 uppercase rounded-full text-dot">
-                                                            {numeral(raised).format('0,0')} / {numeral(cap).format('0,0')} KSM raised
+                                                        <span className="text-xs inline-block py-1 px-2 rounded-full">
+                                                            {numeral(raised).format('0,0')} / {numeral(cap).format('0,0')} KSM
                                                         </span>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className="text-xs inline-block text-pink-600 font-bold">
+                                                        <span className="text-xs inline-block text-blue-600 font-bold">
                                                             {numeral(raisedToCapRatio).format('0.0')}%
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
-                                                    <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-dot"></div>
+                                                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                                                    <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
                                                 </div>
                                             </td>
 
                                             <td className="text-right">
-                                                <button className="bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 border-b-4 border-pink-700 hover:border-pink-500 rounded">
+                                                <button className="bg-blue-500 blue:bg-pink-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:blue-pink-500 rounded">
                                                     View
                                                 </button>
                                             </td>
