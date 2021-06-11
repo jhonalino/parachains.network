@@ -117,8 +117,6 @@ function HomePage() {
 
                 let { cap, deposit, depositor, raised, firstPeriod, lastPeriod, end: endingBlock } = fundInfo;
 
-                console.log(fundInfo);
-
                 const key = createChildKey(value.value.trieIndex)
 
                 const keys = await api.rpc.childstate.getKeys(key, '0x')
@@ -170,6 +168,8 @@ function HomePage() {
             return b.raisedToCapRatio - a.raisedToCapRatio;
         });
 
+        console.log(fundsTmp)
+
         return fundsTmp;
 
     }, [funds])
@@ -212,7 +212,7 @@ function HomePage() {
                                     <th className="text-right">lease period</th>
                                     <th className="text-right">ending block</th>
                                     <th className="text-right">contributors</th>
-                                    <th></th>
+                                    <th>homepage</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -269,11 +269,13 @@ function HomePage() {
                                                 {numeral(contributorCount).format('0,0')}
                                             </td>
 
-                                            <td className="text-right">
-                                                <button className="border border-para rounded-sm bg-transparent px-4 py-2">
-                                                    view
-                                                </button>
-                                            </td>
+                                            {homepage && (
+                                                <td className="text-right">
+                                                    <a href={homepage} className="border border-para rounded-sm bg-transparent px-4 py-2">
+                                                        view
+                                                    </a>
+                                                </td>
+                                            )}
                                         </tr>
                                     );
                                 })}
