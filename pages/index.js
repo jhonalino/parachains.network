@@ -199,7 +199,7 @@ function HomePage() {
         let fundsTmp = [...funds];
 
         fundsTmp.sort((a, b) => {
-            return b.raisedToCapRatio - a.raisedToCapRatio;
+            return b.raised - a.raised;
         });
 
         console.log(fundsTmp)
@@ -245,8 +245,8 @@ function HomePage() {
                                 <tr>
                                     <th className="text-right">#</th>
                                     <th className="text-left" colSpan={2}>parachains</th>
-                                    <th className="text-right">raised / cap</th>
                                     <th className="text-right">raised</th>
+                                    <th className="text-right">raised / cap</th>
                                     <th className="text-right">cap</th>
                                     <th className="text-right">lease period</th>
                                     <th className="text-right">ending block</th>
@@ -271,6 +271,11 @@ function HomePage() {
                                             <td className="text-left text-2xl">
                                                 {text}
                                             </td>
+                                            <td className="text-right">
+                                                <span className="">
+                                                    {numeral(raised).format('0,0')} KSM
+                                                </span>
+                                            </td>
                                             <td className="relative pt-1">
                                                 <div className="flex mb-2 items-center justify-between">
                                                     <div>
@@ -287,11 +292,6 @@ function HomePage() {
                                                 <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-para bg-opacity-25">
                                                     <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-para"></div>
                                                 </div>
-                                            </td>
-                                            <td className="text-right">
-                                                <span className="">
-                                                    {numeral(raised).format('0,0')} KSM
-                                                </span>
                                             </td>
                                             <td className="text-right">
                                                 <span className="">
