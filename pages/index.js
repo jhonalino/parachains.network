@@ -263,7 +263,7 @@ function HomePage() {
                                                 {firstPeriod} - {lastPeriod}
                                             </td>
                                             <td className="text-right">
-                                                {endingBlock}
+                                                {numeral(endingBlock).format('0,0')}
                                             </td>
                                             <td className="text-right">
                                                 {numeral(contributorCount).format('0,0')}
