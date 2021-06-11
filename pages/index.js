@@ -77,6 +77,39 @@ function HomePage() {
 
     const [loading, setLoading] = useState(true);
 
+    const [blockNumber, setBlockNumber] = useState(null);
+
+    const [api, setApi] = useState(null);
+
+    useEffect(() => {
+
+        if (!api) {
+            return;
+        }
+
+        var unsub;
+
+        async function listenForNewBlocks() {
+
+            unsub = await api.rpc.chain.subscribeFinalizedHeads(({ number }) => {
+                setBlockNumber(number.toString());
+            });
+
+        }
+
+        listenForNewBlocks();
+
+        return function () {
+
+            if (typeof unsub === 'function') {
+                console.log('unsub');
+                unsub();
+            }
+
+        };
+
+    }, [api])
+
     useEffect(() => {
 
         async function useApi() {
@@ -97,6 +130,7 @@ function HomePage() {
             // expose api for testing
             window.api = api;
 
+            setApi(api);
 
             setLoadingText('querying crowdloans');
 
@@ -196,9 +230,14 @@ function HomePage() {
                 <Header />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
                     <div className="flex p-4 overflow-x-auto">
-                        <div className="bg-soft-black w-32 h-32 hidden">
-                            <span>block</span> 1233131
-                        </div>
+                        {blockNumber && (
+                            <div className="bg-soft-black px-8 py-4 flex flex-col justify-start">
+                                <span>current block</span>
+                                <span className="text-4xl">
+                                    {numeral(blockNumber).format('0,0')}
+                                </span>
+                            </div>
+                        )}
                     </div>
                     <div className="flex p-4 overflow-x-auto">
                         <table className="min-w-full">
