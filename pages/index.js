@@ -149,8 +149,8 @@ function HomePage() {
                 //if any of the events I'm interester are triggered
                 //then set this, for those who are listening
                 if (matchingEvents.length) {
-                    console.log('setting');
                     setCrowdLoanTriggerEvents(matchingEvents);
+                    console.log(matchingEvents)
                 }
 
             });
@@ -162,7 +162,6 @@ function HomePage() {
         return function () {
 
             if (typeof unsub === 'function') {
-                console.log('unsubbbing');
                 unsub();
             }
 
@@ -309,7 +308,7 @@ function HomePage() {
         let fundsTmp = [...funds];
 
         fundsTmp.sort((a, b) => {
-            return b.raised - a.raised;
+            return b.contributorCount - a.contributorCount;
         });
 
         return fundsTmp;
@@ -441,7 +440,6 @@ function HomePage() {
                                     <th className="text-right">Raised (USD)</th>
                                     <th className="text-right">Raised</th>
                                     <th className="text-right">Cap</th>
-                                    <th className="text-right">Raised / Cap</th>
                                     <th className="text-right">Lease Period</th>
                                     <th className="text-right">Ending Block</th>
                                     <th>Homepage</th>
@@ -481,26 +479,8 @@ function HomePage() {
 
                                             <td className="text-right">
                                                 <span className="">
-                                                    {numeral(cap).format('0.0a')} KSM
+                                                    {numeral(cap).format('0,0')} KSM
                                                 </span>
-                                            </td>
-
-                                            <td className="relative pt-1">
-                                                <div className="flex mb-2 items-center justify-between">
-                                                    <div>
-                                                        <span className="text-xs inline-block py-1 px-2 rounded-full">
-                                                            {numeral(raised).format('0,0')} / {numeral(cap).format('0,0')} KSM
-                                                        </span>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <span className="text-xs inline-block text-para font-bold">
-                                                            {numeral(raisedToCapRatio).format('0.0')}%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-para bg-opacity-25">
-                                                    <div style={{ width: `${raisedToCapRatio}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-para"></div>
-                                                </div>
                                             </td>
 
                                             <td className="text-right">
