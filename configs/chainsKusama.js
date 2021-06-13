@@ -46,7 +46,7 @@ const chains = [
                 info: 'shadow',
                 homepage: 'https://crust.network/',
                 paraId: 2012,
-                logo: 'shadow.svg',
+                logo: 'crust-white.png',
                 text: t('rpc.kusama.shadow', 'Crust Shadow', { ns: 'apps-config' }),
                 providers: {
                         Crust: 'wss://shadow.crust.network/'

@@ -542,8 +542,8 @@ function HomePage() {
                                     return (
                                         <tr key={fundIndex} >
                                             <td className="">
-                                                <div className="w-12 h-12 rounded-full">
-                                                    <img className="w-full h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
+                                                <div className="h-12 rounded-full">
+                                                    <img className="h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
                                                 </div>
                                             </td>
                                             <td className="text-left text-1xl">
