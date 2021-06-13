@@ -526,7 +526,7 @@ function HomePage() {
                         <table className="min-w-max">
                             <thead>
                                 <tr>
-                                    <th className="text-left" colSpan={2}>Parachains</th>
+                                    <th className="text-left" colSpan={2}>Ongoing Campaigns</th>
                                     <th className="text-right">Contributors</th>
                                     <th className="text-right">Raised (USD)</th>
                                     <th className="text-right">Raised</th>
