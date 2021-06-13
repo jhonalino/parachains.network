@@ -156,7 +156,7 @@ const chains = [
                 info: 'shiden',
                 homepage: 'https://shiden.plasmnet.io/',
                 paraId: 2007,
-                logo: 'shiden.png',
+                logo: 'shiden.svg',
                 text: t('rpc.kusama.shiden', 'Shiden', { ns: 'apps-config' }),
                 providers: {
                         StakeTechnologies: 'wss://rpc.shiden.plasmnet.io'
