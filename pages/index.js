@@ -506,7 +506,7 @@ function HomePage() {
                                                     theme={'polkadot'}
                                                 />
                                             </div>
-                                            <span className="mx-2">{AccountId}</span> {method} <span className="text-yellow-300 mx-2"> {Balance} KSM</span>
+                                            <span className="mx-2">{AccountId}</span> {method} <span className="text-yellow-300 mx-2"> {Balance} KSM</span> to
                                             <div className="w-4 h-4 rounded-full inline-block mx-1">
                                                 <img className="w-full h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
                                             </div>
