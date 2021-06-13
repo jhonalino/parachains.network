@@ -3,11 +3,10 @@ import Link from 'next/link';
 export default function Header() {
     return (
         <div className="h-16 w-full border border-b border-gray-700 border-opacity-10 mb-2 bg-black">
-            <div className="max-w-screen-xl m-auto flex justify-between items-center h-full p-2">
+            <div className="max-w-screen-2xl m-auto flex justify-between items-center h-full p-2">
                 <Link href="/">
                     <a>
-                        <h1 className="uppercase text-2xl text-para">parachains</h1>
-                        <h1 className="text-xs pl-2 text-right uppercase font-bold text-para">crowdloans</h1>
+                        <h1 className="uppercase text-2xl text-para font-bold">parachains</h1>
                     </a>
                 </Link>
 

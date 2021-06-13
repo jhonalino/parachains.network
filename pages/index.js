@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Head from '../components/Head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Nav from '../components/Nav';
 import queryString from 'query-string';
 import Link from 'next/link';
 import { isValidKusamaOrPolkadotPublicAddress } from '../utils'
@@ -416,6 +417,7 @@ function HomePage() {
             <Head title="PARACHAINS.NETWORK" />
             <div className="">
                 <Header />
+                <Nav/>
                 <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
                     <div className="flex p-4 pb-0 overflow-x-auto flex-wrap">
 
@@ -515,7 +517,7 @@ function HomePage() {
                                 })}
                             </div>
                         ) : (
-                            <div className="bg-transparent px-8 py-4 m-2 overflow-y-auto h-14 box-border">
+                            <div className="m-2 h-8 box-border">
                             </div>
                         )}
                     </div>
