@@ -417,7 +417,7 @@ function HomePage() {
             <Head title="PARACHAINS.NETWORK" />
             <div className="">
                 <Header />
-                <Nav/>
+                <Nav />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
                     <div className="flex p-4 pb-0 overflow-x-auto flex-wrap">
 
@@ -487,6 +487,15 @@ function HomePage() {
                             </div>
                         )}
 
+                        {(totalRaised && totalCap) && (
+                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>Total Raised / Total Cap</span>
+                                <span className="text-4xl">
+                                    {numeral((totalRaised / totalCap) * 100).format('0,0.00')}%
+                                </span>
+                            </div>
+                        )}
+
                     </div>
 
 
@@ -511,7 +520,7 @@ function HomePage() {
                                             <div className="w-4 h-4 rounded-full inline-block mx-1">
                                                 <img className="w-full h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
                                             </div>
-                                           <span className="text-yellow-100">{text}</span> 
+                                            <span className="text-yellow-100">{text}</span>
                                         </div>
                                     );
                                 })}
