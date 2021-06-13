@@ -144,8 +144,6 @@ function HomePage() {
             // Subscribe to system events via storage
             unsub = await api.query.system.events((events) => {
 
-                console.log(events);
-
                 //listen for event that matches and return them;
                 var matchingEvents = events.filter(function (record) {
                     return record && crowdLoanEventsToListen.some(c => c && c.is(record.event));
@@ -492,10 +490,10 @@ function HomePage() {
 
                     <div className="flex pl-2 overflow-x-auto">
                         {displayLogs.length > 0 ? (
-                            <div className="px-8 py-4 m-2 overflow-y-auto h-14 box-border min-w-max">
+                            <div className="m-2 overflow-y-auto h-8 box-border min-w-max">
                                 {displayLogs.map(function ({ section, method, Balance, AccountId, ParaId, text, logo }, index) {
                                     return (
-                                        <div key={uniqid()} className="flex items-center mb-1 justify-end">
+                                        <div key={uniqid()} className="flex items-center mb-1 justify-start">
                                             <div className={`h-4 w-4 border border-para rounded-full box-content bg-transparent`}>
                                                 <Identicon
                                                     style={{
