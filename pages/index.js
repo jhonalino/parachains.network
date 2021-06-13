@@ -419,7 +419,48 @@ function HomePage() {
                 <Header />
                 <Nav />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height overflow-x-auto">
+
                     <div className="flex p-4 pb-0 overflow-x-auto flex-wrap">
+
+                        {currentFiatPrice && (
+                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>Value (KSM-USD)</span>
+                                <span className="text-4xl">
+                                    ${numeral(currentFiatPrice).format('0,0.00')}
+                                </span>
+                            </div>
+                        )}
+
+                        {(totalRaised && currentFiatPrice) && (
+                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>Total Raised (USD)</span>
+                                <span className="text-4xl">
+                                    ${numeral(totalRaised * currentFiatPrice).format('0,0.00')}
+                                </span>
+                            </div>
+                        )}
+
+                        {(totalCap && currentFiatPrice) && (
+                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>Total Cap (USD)</span>
+                                <span className="text-4xl">
+                                    ${numeral(totalCap * currentFiatPrice).format('0,0')}
+                                </span>
+                            </div>
+                        )}
+
+                        {blockNumber && (
+                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                                <span>Current Block</span>
+                                <span className="text-4xl">
+                                    {numeral(blockNumber).format('0,0')}
+                                </span>
+                            </div>
+                        )}
+
+                    </div>
+
+                    <div className="flex p-4 pt-0 overflow-x-auto flex-wrap">
 
                         {totalContributors && (
                             <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
@@ -448,19 +489,6 @@ function HomePage() {
                             </div>
                         )}
 
-                        {blockNumber && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>Current Block</span>
-                                <span className="text-4xl">
-                                    {numeral(blockNumber).format('0,0')}
-                                </span>
-                            </div>
-                        )}
-
-                    </div>
-
-                    <div className="flex p-4 pt-0 overflow-x-auto flex-wrap">
-
                         {(totalRaised && totalCap) && (
                             <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
                                 <span>Total Raised / Cap</span>
@@ -470,35 +498,7 @@ function HomePage() {
                             </div>
                         )}
 
-                        {(totalRaised && currentFiatPrice) && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>Total Raised (USD)</span>
-                                <span className="text-4xl">
-                                    ${numeral(totalRaised * currentFiatPrice).format('0,0.00')}
-                                </span>
-                            </div>
-                        )}
-
-                        {(totalCap && currentFiatPrice) && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>Total Cap (USD)</span>
-                                <span className="text-4xl">
-                                    ${numeral(totalCap * currentFiatPrice).format('0,0')}
-                                </span>
-                            </div>
-                        )}
-
-                        {currentFiatPrice && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>Value (KSM-USD)</span>
-                                <span className="text-4xl">
-                                    ${numeral(currentFiatPrice).format('0,0.00')}
-                                </span>
-                            </div>
-                        )}
-
                     </div>
-
 
                     <div className="flex pl-2 overflow-x-auto">
                         {displayLogs.length > 0 ? (
