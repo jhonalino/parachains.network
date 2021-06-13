@@ -502,7 +502,7 @@ function HomePage() {
 
                     <div className="flex pl-2 overflow-x-auto">
                         {displayLogs.length > 0 ? (
-                            <div className="m-2 overflow-y-auto h-8 box-border min-w-max">
+                            <div className="m-2 overflow-y-auto h-10 box-border min-w-max">
                                 {displayLogs.map(function ({ section, method, Balance, AccountId, ParaId, text, logo }, index) {
                                     return (
                                         <div key={uniqid()} className="flex items-center mb-1 justify-start">
@@ -561,7 +561,11 @@ function HomePage() {
                                                 {text}
                                             </td>
                                             <td className="text-right">
-                                                {numeral(contributorCount).format('0,0')}
+                                                <Link href="">
+                                                    <a className="underline">
+                                                        {numeral(contributorCount).format('0,0')}
+                                                    </a>
+                                                </Link>
                                             </td>
 
                                             {currentFiatPrice && (
