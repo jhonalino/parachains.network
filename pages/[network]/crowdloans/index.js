@@ -5,16 +5,16 @@ import { blake2AsU8a, encodeAddress } from '@polkadot/util-crypto'
 import numeral from 'numeral';
 import async from 'async';
 import { useRouter } from 'next/router'
-import Head from '../components/Head';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Nav from '../components/Nav';
+import Head from '../../../components/Head';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
+import Nav from '../../../components/Nav';
 import queryString from 'query-string';
 import Link from 'next/link';
-import { isValidKusamaOrPolkadotPublicAddress } from '../utils'
-import currencyPairs from '../utils/currencyPairs'
+import { isValidKusamaOrPolkadotPublicAddress } from '../../../utils'
+import currencyPairs from '../../../utils/currencyPairs'
 import { loadGetInitialProps } from 'next/dist/next-server/lib/utils';
-import chainsConfig from '../configs/chainsKusama';
+import chainsConfig from '../../../configs/chainsKusama';
 import { FixedSizeList } from 'react-window'
 import uniqid from 'uniqid';
 import Identicon from '@polkadot/react-identicon';
