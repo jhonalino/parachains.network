@@ -15,6 +15,8 @@ import currencyPairs from '../utils/currencyPairs'
 import { loadGetInitialProps } from 'next/dist/next-server/lib/utils';
 import chainsConfig from '../configs/chainsKusama';
 import { FixedSizeList } from 'react-window'
+import uniqid from 'uniqid';
+import Identicon from '@polkadot/react-identicon';
 
 function toShortAddress(_address) {
 
@@ -85,6 +87,9 @@ function HomePage() {
 
     const [currentFiatPrice, setCurrentFiatPrice] = useState(null);
 
+    const [displayLogs, setDisplayLogs] = useState([]);
+
+
     useEffect(() => {
 
         const fetchPrice = function () {
@@ -94,11 +99,10 @@ function HomePage() {
                     return response.json();
                 })
                 .then(function ({ usdPrice }) {
-                    console.log('price fetch', usdPrice);
                     setCurrentFiatPrice(usdPrice > 0 ? usdPrice : null);
                 })
                 .catch(function () {
-                    setCurrentFiatPrice(usdPrice);
+                    setCurrentFiatPrice(null);
                 });
 
         };
@@ -148,9 +152,10 @@ function HomePage() {
 
                 //if any of the events I'm interester are triggered
                 //then set this, for those who are listening
-                if (matchingEvents.length) {
+                if (matchingEvents.length > 0) {
+
                     setCrowdLoanTriggerEvents(matchingEvents);
-                    console.log(matchingEvents)
+
                 }
 
             });
@@ -303,6 +308,57 @@ function HomePage() {
 
     }, [api, crowdLoanTriggerEvents]);
 
+    useEffect(() => {
+
+        if (!api) {
+            return;
+        }
+
+        const chainDecimal = Math.pow(10, api.registry.chainDecimals[0]);
+
+        var eventsToShow = crowdLoanTriggerEvents.map(function (record, index) {
+
+            const { event: { section, method, data, typeDef: types } } = record;
+
+            var tmp = {
+                section, method
+            };
+
+            data.forEach(function (data, index) {
+                tmp[types[index].type] = data.toString()
+            });
+
+            if (tmp.Balance) {
+                tmp.Balance = tmp.Balance / chainDecimal;
+            }
+
+            if (tmp.ParaId) {
+                tmp = {
+                    ...tmp,
+                    ...(chainsConfig.filter((c) => c.paraId == tmp.ParaId)[0] || {})
+                }
+            }
+
+            return tmp;
+
+        });
+
+        eventsToShow = eventsToShow.filter(function ({ method, section }) {
+
+            if ((method === "Withdrew" || method === "Contributed") && section === "crowdloan") {
+                return true;
+            } else {
+                return false;
+            }
+
+        });
+
+        setDisplayLogs([
+            ...eventsToShow
+        ]);
+
+    }, [crowdLoanTriggerEvents, api])
+
     const sortedFunds = useMemo(() => {
 
         let fundsTmp = [...funds];
@@ -427,6 +483,37 @@ function HomePage() {
                                 <span className="text-4xl">
                                     ${numeral(totalCap * currentFiatPrice).format('0,0')}
                                 </span>
+                            </div>
+                        )}
+
+                    </div>
+
+
+                    <div className="flex pl-2 overflow-x-auto flex-wrap">
+                        {displayLogs.length > 0 && (
+                            <div className="bg-soft-black px-8 py-4 m-2 overflow-y-auto h-12 box-border">
+                                {displayLogs.map(function ({ section, method, Balance, AccountId, ParaId, text, logo }, index) {
+                                    return (
+                                        <div key={uniqid()} className="flex items-center">
+                                            <div className={`h-4 w-4 border border-para rounded-full box-content bg-transparent`}>
+                                                <Identicon
+                                                    style={{
+                                                        height: '100%',
+                                                        width: '100%',
+                                                    }}
+                                                    value={AccountId}
+                                                    size={'100%'}
+                                                    theme={'polkadot'}
+                                                />
+                                            </div>
+                                            <span className="mx-2">{AccountId}</span> {method} <span className="text-yellow-300 mx-2">{Balance} KSM</span> 
+                                            <div className="w-4 h-4 rounded-full inline-block mx-1">
+                                                <img className="w-full h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
+                                            </div>
+                                            {text}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         )}
                     </div>

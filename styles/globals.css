@@ -58,3 +58,10 @@ th {
     width: 100%;
     border: none;
 }
+
+
+
+.ui--IdentityIcon circle:first-child {
+    /* fill: rgb(40, 40, 41); */
+    fill: transparent;
+}
