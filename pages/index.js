@@ -460,11 +460,12 @@ function HomePage() {
                     </div>
 
                     <div className="flex p-4 pt-0 overflow-x-auto flex-wrap">
-                        {currentFiatPrice && (
+
+                        {(totalRaised && totalCap) && (
                             <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>Value (KSM-USD)</span>
+                                <span>Total Raised / Cap</span>
                                 <span className="text-4xl">
-                                    ${numeral(currentFiatPrice).format('0,0.00')}
+                                    {numeral((totalRaised / totalCap) * 100).format('0,0.00')}%
                                 </span>
                             </div>
                         )}
@@ -487,11 +488,11 @@ function HomePage() {
                             </div>
                         )}
 
-                        {(totalRaised && totalCap) && (
+                        {currentFiatPrice && (
                             <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
-                                <span>Total Raised / Total Cap</span>
+                                <span>Value (KSM-USD)</span>
                                 <span className="text-4xl">
-                                    {numeral((totalRaised / totalCap) * 100).format('0,0.00')}%
+                                    ${numeral(currentFiatPrice).format('0,0.00')}
                                 </span>
                             </div>
                         )}
