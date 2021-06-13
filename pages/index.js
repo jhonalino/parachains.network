@@ -490,8 +490,8 @@ function HomePage() {
 
 
                     <div className="flex pl-2 overflow-x-auto flex-wrap">
-                        {displayLogs.length > 0 && (
-                            <div className="bg-soft-black px-8 py-4 m-2 overflow-y-auto h-12 box-border">
+                        {displayLogs.length > 0 ? (
+                            <div className="bg-soft-black px-8 py-4 m-2 overflow-y-auto h-14 box-border">
                                 {displayLogs.map(function ({ section, method, Balance, AccountId, ParaId, text, logo }, index) {
                                     return (
                                         <div key={uniqid()} className="flex items-center">
@@ -506,7 +506,7 @@ function HomePage() {
                                                     theme={'polkadot'}
                                                 />
                                             </div>
-                                            <span className="mx-2">{AccountId}</span> {method} <span className="text-yellow-300 mx-2"> {numeral(Balance).format('0,0.00')} KSM</span> 
+                                            <span className="mx-2">{AccountId}</span> {method} <span className="text-yellow-300 mx-2"> {numeral(Balance).format('0,0.00')} KSM</span>
                                             <div className="w-4 h-4 rounded-full inline-block mx-1">
                                                 <img className="w-full h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
                                             </div>
@@ -514,6 +514,9 @@ function HomePage() {
                                         </div>
                                     );
                                 })}
+                            </div>
+                        ) : (
+                            <div className="bg-transparent px-8 py-4 m-2 overflow-y-auto h-14 box-border">
                             </div>
                         )}
                     </div>
