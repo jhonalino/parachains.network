@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Nav() {
 
-    var suffix = "/";
+    var suffix = "/ksm/crowdloans";
 
     return (
         <div className="w-full bg-transparent font-light">
