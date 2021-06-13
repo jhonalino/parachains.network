@@ -239,7 +239,7 @@ function HomePage() {
                 return;
             }
 
-            setLoadingText('Querying crowdloans');
+            setLoadingText('Querying Crowdloans');
 
             const chainDecimal = Math.pow(10, api.registry.chainDecimals[0]);
 
@@ -247,7 +247,7 @@ function HomePage() {
 
             window.numeral = numeral;
 
-            setLoadingText('Loading para funds');
+            setLoadingText('Loading Campaigns');
 
             async.map(_fundEntries, async function ([{ args: fundIndex }, value], cb) {
 
@@ -403,7 +403,7 @@ function HomePage() {
                 <Head />
                 <div className="">
                     <Header />
-                    <div className="max-w-screen-2xl m-auto w-full min-content-height">
+                    <div className="max-w-screen-2xl m-auto w-full min-content-height p-4">
                         {loadingText}...
                     </div>
                     <Footer />
