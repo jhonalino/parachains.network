@@ -434,7 +434,7 @@ function HomePage() {
                             <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
                                 <span>Total Raised</span>
                                 <span className="text-4xl">
-                                    {numeral(totalRaised).format('0,0')} KSM
+                                    {numeral(totalRaised).format('0,0.00')} KSM
                                 </span>
                             </div>
                         )}
@@ -473,7 +473,7 @@ function HomePage() {
                             <div className="bg-soft-black px-8 py-4 flex flex-col justify-start text-right m-2">
                                 <span>Total Raised (USD)</span>
                                 <span className="text-4xl">
-                                    ${numeral(totalRaised * currentFiatPrice).format('0,0')}
+                                    ${numeral(totalRaised * currentFiatPrice).format('0,0.00')}
                                 </span>
                             </div>
                         )}
@@ -557,14 +557,14 @@ function HomePage() {
                                             {currentFiatPrice && (
                                                 <td className="text-right">
                                                     <span className="">
-                                                        ${numeral(raised * currentFiatPrice).format('0,0')}
+                                                        ${numeral(raised * currentFiatPrice).format('0,0.00')}
                                                     </span>
                                                 </td>
                                             )}
 
                                             <td className="text-right">
                                                 <span className="">
-                                                    {numeral(raised).format('0,0')} KSM
+                                                    {numeral(raised).format('0,0.00')} KSM
                                                 </span>
                                             </td>
 
