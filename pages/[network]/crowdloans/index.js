@@ -423,7 +423,7 @@ function HomePage() {
                     <div className="flex p-4 pb-0 overflow-x-auto flex-wrap">
 
                         {currentFiatPrice && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
                                 <span>Value (KSM-USD)</span>
                                 <span className="text-4xl">
                                     ${numeral(currentFiatPrice).format('0,0.00')}
@@ -432,7 +432,7 @@ function HomePage() {
                         )}
 
                         {(totalRaised && currentFiatPrice) && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
                                 <span>Total Raised (USD)</span>
                                 <span className="text-4xl">
                                     ${numeral(totalRaised * currentFiatPrice).format('0,0.00')}
@@ -441,7 +441,7 @@ function HomePage() {
                         )}
 
                         {(totalCap && currentFiatPrice) && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
                                 <span>Total Cap (USD)</span>
                                 <span className="text-4xl">
                                     ${numeral(totalCap * currentFiatPrice).format('0,0')}
@@ -450,7 +450,7 @@ function HomePage() {
                         )}
 
                         {blockNumber && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
                                 <span>Current Block</span>
                                 <span className="text-4xl">
                                     {numeral(blockNumber).format('0,0')}
@@ -463,7 +463,7 @@ function HomePage() {
                     <div className="flex p-4 pt-0 overflow-x-auto flex-wrap">
 
                         {totalContributors && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
                                 <span>Total Contributors</span>
                                 <span className="text-4xl">
                                     {numeral(totalContributors).format('0,0')}
@@ -472,7 +472,7 @@ function HomePage() {
                         )}
 
                         {totalRaised && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
                                 <span>Total Raised</span>
                                 <span className="text-4xl">
                                     {numeral(totalRaised).format('0,0.00')} KSM
@@ -481,7 +481,7 @@ function HomePage() {
                         )}
 
                         {totalCap && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
                                 <span>Total Cap</span>
                                 <span className="text-4xl">
                                     {numeral(totalCap).format('0,0')} KSM
@@ -490,7 +490,7 @@ function HomePage() {
                         )}
 
                         {(totalRaised && totalCap) && (
-                            <div className="px-8 py-4 flex flex-col justify-start text-right m-2">
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
                                 <span>Total Raised / Cap</span>
                                 <span className="text-4xl">
                                     {numeral((totalRaised / totalCap) * 100).format('0,0.00')}%
