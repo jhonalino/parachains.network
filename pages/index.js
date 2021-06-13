@@ -489,7 +489,7 @@ function HomePage() {
                     </div>
 
 
-                    <div className="flex pl-2 overflow-x-auto flex-wrap">
+                    <div className="flex pl-2 overflow-x-auto">
                         {displayLogs.length > 0 ? (
                             <div className="bg-soft-black px-8 py-4 m-2 overflow-y-auto h-14 box-border">
                                 {displayLogs.map(function ({ section, method, Balance, AccountId, ParaId, text, logo }, index) {
