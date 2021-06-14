@@ -498,11 +498,15 @@ function HomePage() {
                                         <tr key={fundIndex} >
                                             <td className="">
                                                 <div className="h-12 rounded-full">
-                                                    <img className="h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
+                                                    {logo ? (
+                                                        <img className="h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
+                                                    ) : (
+                                                        <div className="h-full rounded-full w-12 flex justify-center items-center border border-para">{fundIndex}</div>
+                                                    )}
                                                 </div>
                                             </td>
-                                            <td className="text-left text-1xl">
-                                                {text}
+                                            <td className="text-left text-1xl" dataFundIndex={fundIndex}>
+                                                {text || fundIndex}
                                             </td>
                                             <td className="text-right">
                                                 <Link href={`${router.asPath}/${fundIndex}`}>
@@ -539,11 +543,14 @@ function HomePage() {
                                                 {numeral(endingBlock).format('0,0')}
                                             </td>
 
-                                            {homepage && (
+                                            {homepage ? (
                                                 <td className="text-right">
                                                     <a href={homepage} className="border border-para rounded-sm bg-transparent px-4 py-2">
                                                         View
                                                     </a>
+                                                </td>
+                                            ) : (
+                                                <td className="text-right">
                                                 </td>
                                             )}
                                         </tr>
