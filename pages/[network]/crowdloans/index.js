@@ -497,12 +497,17 @@ function HomePage() {
                                     return (
                                         <tr key={fundIndex} >
                                             <td className="">
-                                                <div className="h-12 rounded-full">
-                                                    {logo ? (
-                                                        <img className="h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
-                                                    ) : (
-                                                        <div className="h-full rounded-full w-12 flex justify-center items-center border border-para">{fundIndex}</div>
-                                                    )}
+                                                <div className="flex items-center justify-center flex-col">
+                                                    <div className="h-12 rounded-full">
+                                                        {logo ? (
+                                                            <img className="h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
+                                                        ) : (
+                                                            <div className="h-full rounded-full w-12 flex justify-center items-center border border-para">{fundIndex}</div>
+                                                        )}
+                                                    </div>
+                                                    <span className="text-sm">
+                                                        {fundIndex}
+                                                    </span>
                                                 </div>
                                             </td>
                                             <td className="text-left text-1xl">
