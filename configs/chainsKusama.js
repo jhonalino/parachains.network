@@ -164,6 +164,16 @@ const chains = [
                 }
         },
         {
+                info: 'subgame',
+                homepage: 'https://subgame.org/',
+                paraId: 2018,
+                logo: 'subgame.svg',
+                text: t('rpc.kusama.subgame', 'SubGame Gamma', { ns: 'apps-config' }),
+                providers: {
+                        SubGame: 'wss://gamma.subgame.org/'
+                }
+        },
+        {
                 info: 'moonriver',
                 homepage: 'https://moonbeam.foundation/moonriver-crowdloan/',
                 paraId: 2023,

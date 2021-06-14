@@ -505,7 +505,7 @@ function HomePage() {
                                                     )}
                                                 </div>
                                             </td>
-                                            <td className="text-left text-1xl" dataFundIndex={fundIndex}>
+                                            <td className="text-left text-1xl">
                                                 {text || fundIndex}
                                             </td>
                                             <td className="text-right">
