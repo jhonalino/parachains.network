@@ -1,6 +1,7 @@
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { hexToU8a, isHex } from "@polkadot/util";
 import { checkAddress } from "@polkadot/util-crypto";
+import currencyPairs from './currencyPairs';
 
 //returns [success boolean, polkadot or kusama]
 //or [error boolean, error message]
@@ -40,6 +41,18 @@ const isValidKusamaOrPolkadotPublicAddress = (address) => {
 };
 
 
+const toShortAddress = function (_address) {
+
+    const address = (_address || '');
+
+    return (address.length > 13)
+        ? `${address.slice(0, 6)}…${address.slice(-6)}`
+        : address;
+
+};
+
 export {
-    isValidKusamaOrPolkadotPublicAddress
+    isValidKusamaOrPolkadotPublicAddress,
+    toShortAddress,
+    currencyPairs,
 };

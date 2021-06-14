@@ -137,6 +137,7 @@ const chains = [
                 homepage: 'https://clover.finance/',
                 isUnreachable: true,
                 paraId: 2016,
+                logo: 'sakura.svg',
                 text: t('rpc.kusama.sakura', 'Sakura', { ns: 'apps-config' }),
                 providers: {
                         Clover: 'wss://api-sakura.clover.finance'

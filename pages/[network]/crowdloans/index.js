@@ -1,33 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
-import { BN_ZERO, u8aConcat, u8aToHex } from '@polkadot/util';
-import { blake2AsU8a, encodeAddress } from '@polkadot/util-crypto'
+import Link from 'next/link';
 import numeral from 'numeral';
 import async from 'async';
-import { useRouter } from 'next/router'
-import Head from '../../../components/Head';
-import Header from '../../../components/Header';
-import Footer from '../../../components/Footer';
-import Nav from '../../../components/Nav';
-import queryString from 'query-string';
-import Link from 'next/link';
-import { isValidKusamaOrPolkadotPublicAddress } from '../../../utils'
-import currencyPairs from '../../../utils/currencyPairs'
-import { loadGetInitialProps } from 'next/dist/next-server/lib/utils';
 import chainsConfig from '../../../configs/chainsKusama';
-import { FixedSizeList } from 'react-window'
 import uniqid from 'uniqid';
 import Identicon from '@polkadot/react-identicon';
 
-function toShortAddress(_address) {
-
-    const address = (_address || '');
-
-    return (address.length > 13)
-        ? `${address.slice(0, 6)}…${address.slice(-6)}`
-        : address;
-
-}
+import { useEffect, useMemo, useState } from 'react';
+import { ApiPromise, WsProvider } from '@polkadot/api';
+import { BN_ZERO, u8aConcat, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a, encodeAddress } from '@polkadot/util-crypto'
+import { useRouter } from 'next/router'
+import { Footer, Header, Head, Nav, Loader } from '../../../components';
+import { isValidKusamaOrPolkadotPublicAddress, currencyPairs } from '../../../utils'
+import { FixedSizeList } from 'react-window'
 
 function createChildKey(trieIndex) {
     return u8aToHex(
@@ -40,36 +25,6 @@ function createChildKey(trieIndex) {
     );
 }
 
-const areAddressesValid = function (addresses) {
-
-    if (!Array.isArray(addresses)) {
-        return [false, 'not an array'];
-    }
-
-    if (addresses.length <= 0) {
-        return [false, 'no address found'];
-    }
-
-    for (let i = 0; i < addresses.length; i++) {
-
-        let address = addresses[i];
-        if (address.error) {
-            return [false, address.error];
-        }
-
-        if (!address.address) {
-            return [false, 'missing an addresss'];
-        }
-
-        if (!address.network) {
-            return [false, 'invalid address'];
-        }
-
-    }
-
-    return [true];
-
-};
 function HomePage() {
 
     const router = useRouter();
@@ -398,18 +353,7 @@ function HomePage() {
     }, [funds])
 
     if (loading) {
-        return (
-            <>
-                <Head />
-                <div className="">
-                    <Header />
-                    <div className="max-w-screen-2xl m-auto w-full min-content-height p-4">
-                        {loadingText}...
-                    </div>
-                    <Footer />
-                </div>
-            </>
-        )
+        return <Loader loadingText={loadingText} />
     }
 
     return (
@@ -561,7 +505,7 @@ function HomePage() {
                                                 {text}
                                             </td>
                                             <td className="text-right">
-                                                <Link href="">
+                                                <Link href={`${router.asPath}/${fundIndex}`}>
                                                     <a className="underline">
                                                         {numeral(contributorCount).format('0,0')}
                                                     </a>
