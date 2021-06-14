@@ -36,7 +36,7 @@ const chains = [
                 homepage: 'https://thebifrost.io/',
                 isUnreachable: true,
                 paraId: 2001,
-                logo: 'brifrost.svg',
+                logo: 'bifrost.svg',
                 text: t('rpc.kusama.bifrost', 'Bifrost', { ns: 'apps-config' }),
                 providers: {
                         Bifrost: 'wss://bifrost-rpc.liebi.com/ws'
