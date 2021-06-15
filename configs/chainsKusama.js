@@ -148,6 +148,7 @@ const chains = [
                 homepage: 'https://chainx.org/',
                 isUnreachable: true,
                 paraId: 2013,
+                logo: 'chainx.svg',
                 text: t('rpc.kusama.sherpax', 'SherpaX', { ns: 'apps-config' }),
                 providers: {
                         ChainX: 'wss://sherpax.chainx.org'
@@ -182,7 +183,17 @@ const chains = [
                 providers: {
                         Purestake: 'wss://wss.moonriver.moonbeam.network'
                 }
-        }
+        },
+        {
+                info: 'mars',
+                homepage: 'https://www.aresprotocol.io/',
+                paraId: 2008,
+                logo: 'ares.svg',
+                text: t('rpc.kusama.mars', 'Mars', { ns: 'apps-config' }),
+                providers: {
+                        AresProtocol: 'wss://wss.mars.aresprotocol.io'
+                }
+        },
 ]
 
 
