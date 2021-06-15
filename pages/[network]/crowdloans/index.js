@@ -480,6 +480,7 @@ function HomePage() {
                         <table className="min-w-max">
                             <thead>
                                 <tr>
+                                    <th className="text-right">#</th>
                                     <th className="text-left" colSpan={2}>Ongoing Campaigns</th>
                                     <th className="text-right">Contributors</th>
                                     <th className="text-right">Raised (USD)</th>
@@ -493,9 +494,12 @@ function HomePage() {
                             <tbody>
                                 {sortedFunds.map(function ({ cap, fundIndex, deposit, depositor, firstPeriod, lastPeriod, logo, text,
                                     endingBlock,
-                                    homepage, raised, raisedToCapRatio, contributorCount }) {
+                                    homepage, raised, raisedToCapRatio, contributorCount }, index) {
                                     return (
                                         <tr key={fundIndex} >
+                                            <td className="text-right">
+                                                {index + 1}
+                                            </td>
                                             <td className="">
                                                 <div className="flex items-center justify-center flex-col">
                                                     <div className="h-12 rounded-full">

@@ -11,8 +11,9 @@
         @apply text-xs text-gray-900;
     }
 
-    
-    table {
+
+    th,
+    td {
         @apply bg-soft-black;
     }
 
@@ -37,7 +38,7 @@ body {
 }
 
 table {
-    border-spacing: 0 1px;
+    border-spacing: 0px 2px;
     border-collapse: separate;
 }
 
