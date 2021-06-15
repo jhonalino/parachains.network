@@ -319,7 +319,7 @@ function HomePage() {
         let fundsTmp = [...funds];
 
         fundsTmp.sort((a, b) => {
-            return b.contributorCount - a.contributorCount;
+            return b.raised - a.raised;
         });
 
         return fundsTmp;
