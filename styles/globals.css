@@ -47,12 +47,7 @@ th {
 
     border-left: none;
     border-right: none;
-}
-
-
-.parathreads td,
-.parathreads th {
-    padding: .8em 1.5em;
+    box-sizing: content-box;
 }
 
 th {

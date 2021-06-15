@@ -194,6 +194,16 @@ const chains = [
                         AresProtocol: 'wss://wss.mars.aresprotocol.io'
                 }
         },
+        {
+                info: 'genshiro',
+                homepage: 'https://genshiro.equilibrium.io',
+                paraId: 2024,
+                logo: 'genshiro.svg',
+                text: t('rpc.kusama.genshiro', 'Genshiro', { ns: 'apps-config' }),
+                providers: {
+                        Equilibrium: 'wss://gens-mainnet.equilibrium.io'
+                }
+        },
 ]
 
 
