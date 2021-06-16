@@ -92,6 +92,8 @@ function Campaign(props) {
 
     const [currentFiatPrice, setCurrentFiatPrice] = useState(null);
 
+    const [searchText, setSearchText] = useState('');
+
     useEffect(() => {
 
         window.numeral = numeral;
@@ -139,7 +141,7 @@ function Campaign(props) {
 
             var fund = await api.query.crowdloan.funds(paraId);
 
-            setLoadingText('Loading Campaigns');
+            setLoadingText('Loading Contributors');
 
             const fundInfo = fund.value.toJSON();
 
@@ -219,13 +221,19 @@ function Campaign(props) {
 
         }
 
+        if (searchText) {
+            tmp = tmp.filter(t => {
+                return t.address == searchText;
+            });
+        }
+
         tmp.sort(function (a, b) {
             return b.balance - a.balance;
         });
 
         return tmp;
 
-    }, [fund, identities]);
+    }, [fund, identities, searchText]);
 
     useEffect(() => {
 
@@ -344,6 +352,9 @@ function Campaign(props) {
         return (
             <div style={style} className="w-full h-full flex px-4 pb-0.5">
                 <div className="bg-soft-black w-full flex">
+                    <div className="w-1/12 flex items-center justify-center">
+                        {index + 1}
+                    </div>
                     <div className="w-1/5 flex items-center justify-center">
                         <div className={`h-12 w-12 rounded-full box-content bg-transparent`}>
                             <Identicon
@@ -388,6 +399,7 @@ function Campaign(props) {
                 <Header />
                 <Nav />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height p-4">
+
                     <div className="flex p-4 pb-0 overflow-x-auto flex-wrap">
                         {paraId && (
                             <div className="flex items-center justify-center">
@@ -484,11 +496,27 @@ function Campaign(props) {
 
                     </div>
 
+                    <div className="flex flex-col justify-center items-center w-full px-4">
+                        <div className="w-full bg-gray-900 flex justify-center ">
+                            <div className="bg-transparent w-full relative">
+                                <input type="text" className={`m-auto px-4 py-4 box-border text-${props.suffix === 'dot' ? 'dot' : 'ksm'} text-2xl  w-full bg-transparent outline-none`}
+                                    placeholder="search address"
+                                    value={searchText} onInput={(e) => {
+                                        setSearchText(e.target.value);
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="h-screen mb-24">
                         {fund && (
                             <>
                                 <div className="px-4 pb-0.5">
                                     <div className="bg-soft-black w-full flex h-12 ">
+                                        <div className="w-1/12 flex items-center justify-center">
+                                            #
+                                        </div>
                                         <div className="w-1/5 flex items-center justify-center">
                                             Contributors
                                         </div>
