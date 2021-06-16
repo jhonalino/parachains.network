@@ -90,6 +90,7 @@ function Campaign(props) {
 
     const [identities, setIdentities] = useState([]);
 
+    const [currentFiatPrice, setCurrentFiatPrice] = useState(null);
 
     useEffect(() => {
 
@@ -226,6 +227,35 @@ function Campaign(props) {
 
     }, [fund, identities]);
 
+    useEffect(() => {
+
+        const fetchPrice = function () {
+
+            window.fetch(`https://polkaview.network/api/ksm/price`)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function ({ usdPrice }) {
+                    setCurrentFiatPrice(usdPrice > 0 ? usdPrice : null);
+                })
+                .catch(function () {
+                    setCurrentFiatPrice(null);
+                });
+
+        };
+
+        let intervalId = window.setInterval(fetchPrice, 1000 * 60) //1 minute
+
+        fetchPrice();
+
+        return function () {
+
+            window.clearInterval(intervalId);
+
+        };
+
+    }, [])
+
     useEffect(function () {
         async function fetch() {
             if (!api || 1) {
@@ -345,6 +375,7 @@ function Campaign(props) {
 
     }
 
+    const { raised: totalRaised, cap: totalCap, contributorCount: totalContributors, logo, paraId, text } = fund || {}
 
     if (loading) {
         return <Loader loadingText={loadingText} />
@@ -357,42 +388,141 @@ function Campaign(props) {
                 <Header />
                 <Nav />
                 <div className="max-w-screen-2xl m-auto w-full min-content-height p-4">
-                    {fund && (
-                        <>
-                            <div className="px-4 pb-0.5">
-                                <div className="bg-soft-black w-full flex h-12 ">
-                                    <div className="w-1/5 flex items-center justify-center">
-                                    </div>
-                                    <div className="w-1/2 flex items-center">
-                                        address
-                                    </div>
-                                    <div className="w-1/5 flex items-center text-yellow-200">
-                                        contribution
-                                    </div>
-                                    <div className="w-1/5 flex items-center">
-                                        ratio
-                                    </div>
-                                    <div className="w-1/5 flex items-center">
-                                        {/* name */}
+                    <div className="flex p-4 pb-0 overflow-x-auto flex-wrap">
+                        {paraId && (
+                            <div className="flex items-center justify-center">
+                                <div className="h-24 rounded-full mr-4">
+                                    {logo ? (
+                                        <img className="h-full rounded-full" src={`/logos/chains/${logo}`} alt={text} />
+                                    ) : (
+                                        <div className="h-full rounded-full w-12 flex justify-center items-center border border-para">{fundIndex}</div>
+                                    )}
+                                </div>
+                                <span className="text-6xl">
+                                    {text}
+                                </span>
+                            </div>
+                        )}
+                    </div>
+                    <div className="flex p-4 pb-0 overflow-x-auto flex-wrap">
+
+                        {paraId && (
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
+                                <span>Fund Index</span>
+                                <span className="text-4xl">
+                                    {paraId}
+                                </span>
+                            </div>
+                        )}
+
+                        {currentFiatPrice && (
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
+                                <span>Value (KSM-USD)</span>
+                                <span className="text-4xl">
+                                    ${numeral(currentFiatPrice).format('0,0.00')}
+                                </span>
+                            </div>
+                        )}
+
+                        {(totalRaised && currentFiatPrice) && (
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
+                                <span>Raised (USD)</span>
+                                <span className="text-4xl">
+                                    ${numeral(totalRaised * currentFiatPrice).format('0,0.00')}
+                                </span>
+                            </div>
+                        )}
+
+                        {(totalCap && currentFiatPrice) && (
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
+                                <span>Cap (USD)</span>
+                                <span className="text-4xl">
+                                    ${numeral(totalCap * currentFiatPrice).format('0,0')}
+                                </span>
+                            </div>
+                        )}
+
+                    </div>
+
+                    <div className="flex p-4 pt-0 overflow-x-auto flex-wrap">
+
+                        {totalContributors && (
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
+                                <span>Contributors</span>
+                                <span className="text-4xl">
+                                    {numeral(totalContributors).format('0,0')}
+                                </span>
+                            </div>
+                        )}
+
+                        {totalRaised && (
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
+                                <span>Raised</span>
+                                <span className="text-4xl">
+                                    {numeral(totalRaised).format('0,0.00')} KSM
+                                </span>
+                            </div>
+                        )}
+
+                        {totalCap && (
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
+                                <span>Cap</span>
+                                <span className="text-4xl">
+                                    {numeral(totalCap).format('0,0')} KSM
+                                </span>
+                            </div>
+                        )}
+
+                        {(totalRaised && totalCap) && (
+                            <div className="px-8 py-4 flex flex-col justify-start m-2">
+                                <span>Raised / Cap</span>
+                                <span className="text-4xl">
+                                    {numeral((totalRaised / totalCap) * 100).format('0,0.00')}%
+                                </span>
+                            </div>
+                        )}
+
+                    </div>
+
+                    <div className="h-screen mb-24">
+                        {fund && (
+                            <>
+                                <div className="px-4 pb-0.5">
+                                    <div className="bg-soft-black w-full flex h-12 ">
+                                        <div className="w-1/5 flex items-center justify-center">
+                                            Contributors
+                                        </div>
+                                        <div className="w-1/2 flex items-center">
+                                            Address
+                                        </div>
+                                        <div className="w-1/5 flex items-center text-yellow-200">
+                                            Contribution
+                                        </div>
+                                        <div className="w-1/5 flex items-center">
+                                            Ratio
+                                        </div>
+                                        <div className="w-1/5 flex items-center">
+                                            {/* name */}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <AutoSizer>
-                                {({ width, height }) => {
-                                    return (
-                                        <List
-                                            height={height}
-                                            itemCount={sortedContributions.length}
-                                            itemSize={100} //comes from manually calculating what fits
-                                            width={width}
-                                        >
-                                            {ContributorCard}
-                                        </List>
-                                    )
-                                }}
-                            </AutoSizer>
-                        </>
-                    )}
+                                <AutoSizer>
+                                    {({ width, height }) => {
+                                        return (
+                                            <List
+                                                height={height}
+                                                itemCount={sortedContributions.length}
+                                                itemSize={100} //comes from manually calculating what fits
+                                                width={width}
+                                            >
+                                                {ContributorCard}
+                                            </List>
+                                        )
+                                    }}
+                                </AutoSizer>
+                            </>
+                        )}
+                    </div>
                 </div>
                 <Footer />
             </div>
