@@ -25,7 +25,7 @@ function createChildKey(trieIndex) {
     );
 }
 
-function HomePage() {
+function Crowdloans() {
 
     const router = useRouter();
 
@@ -514,8 +514,12 @@ function HomePage() {
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td className="text-left text-1xl">
-                                                {text || fundIndex}
+                                            <td className="text-left text-1xl hover:text-yellow-200">
+                                                <Link href={`${router.asPath}/${fundIndex}`}>
+                                                    <a>
+                                                        {text || fundIndex}
+                                                    </a>
+                                                </Link>
                                             </td>
                                             <td className="text-right">
                                                 <Link href={`${router.asPath}/${fundIndex}`}>
@@ -576,4 +580,4 @@ function HomePage() {
 
 }
 
-export default HomePage;
+export default Crowdloans;

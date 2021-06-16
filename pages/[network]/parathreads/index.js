@@ -20,7 +20,7 @@ function createChildKey(trieIndex) {
 	);
 }
 
-function HomePage() {
+function Parathreads() {
 
 	const router = useRouter();
 
@@ -167,4 +167,4 @@ function HomePage() {
 
 }
 
-export default HomePage;
+export default Parathreads;

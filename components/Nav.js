@@ -23,8 +23,6 @@ export default function Nav() {
 
     const router = useRouter();
 
-    console.log(router.asPath);
-
     var suffix = "/ksm/crowdloans";
 
     return (
